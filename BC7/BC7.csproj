@@ -1,0 +1,80 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../BytingLib/BytingLib/Build/Targets.targets" />
+	<Import Project="../../BytingLib/BytingLib/Build/BeautifyOutput.targets" />
+  <PropertyGroup>
+	<Version>0.1.0.0</Version>
+	<MGCBCommand>mgcb-byting</MGCBCommand>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RollForward>Major</RollForward>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <TieredCompilation>false</TieredCompilation>
+    <Nullable>enable</Nullable>
+	<ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <!-- Make sure exceptions show only relative filepaths. But only when not building from visual studio, because with visual studio those paths are required for hot reloading cs files. -->
+  <PropertyGroup Condition="$(BuildingInsideVisualStudio) != 'true'">
+    <PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=SE/</PathMap>
+  </PropertyGroup>
+
+  <Import Project="Build/Icons.targets" />
+
+	<!-- MonoGame Specific -->
+	<PropertyGroup>
+		<MonoGamePlatform>DesktopGL</MonoGamePlatform>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<AssemblyName>BC7</AssemblyName>
+	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="Content/bin/**" />
+	  <Compile Remove="Content/obj/**" />
+	  <EmbeddedResource Remove="Content/bin/**" />
+	  <EmbeddedResource Remove="Content/obj/**" />
+	  <None Remove="Content/bin/**" />
+	  <None Remove="Content/obj/**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="BytingGames.MonoGame.Content.Builder.Task" Version="3.8.1.17-develop" />
+		<PackageReference Include="nulastudio.NetCoreBeauty" Version="1.2.9.3" />
+		<PackageReference Include="Serilog" Version="3.0.1" />
+		<PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="../BytingLib/BytingPipeline/BytingPipeline.csproj" />
+		<ProjectReference Include="../BytingLib/BytingLib/BytingLib.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="_GenerateContentFiles.meta">
+			<DependentUpon>_GenerateContentFiles.tt</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</None>
+		<None Update="_GenerateContentFiles.tt">
+			<LastGenOutput>_GenerateContentFiles.meta</LastGenOutput>
+			<Generator>TextTemplatingFileGenerator</Generator>
+		</None>
+	</ItemGroup>
+
+	<!-- Copy Settings.cs when creating a debug build. This can then be used to generate settings.example.yaml. -->
+	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
+		<Compile Update="Data/Settings.cs">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
+
+	<Target Name="RestoreDotnetTools" BeforeTargets="Restore">
+		<Message Text="Restoring dotnet tools" Importance="High" />
+		<Exec Command="dotnet tool restore" />
+	</Target>
+
+	<Import Project="Build/CopyMGCB.targets" />
+	
+</Project>

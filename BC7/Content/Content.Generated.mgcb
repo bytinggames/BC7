@@ -1,0 +1,66 @@
+
+#----------------------------- Global Properties ----------------------------#
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:DesktopGL
+/config:
+/profile:Reach
+/compress:False
+/keepDuplicates:True
+
+$if Configuration=Debug
+/reference:../../BytingLib/BytingPipeline/bin/Debug/net8.0/BytingPipeline.dll
+/reference:../../BytingLib/BytingPipeline/bin/Debug/net8.0/QoiSharp.dll
+$endif
+$if Configuration=Release
+/reference:../../BytingLib/BytingPipeline/bin/Release/net8.0/BytingPipeline.dll
+/reference:../../BytingLib/BytingPipeline/bin/Release/net8.0/QoiSharp.dll
+$endif
+
+
+#-------------------------------- References --------------------------------#
+
+
+#---------------------------------- Content ---------------------------------#
+#begin Fonts/MessageBox.xnb
+#/c#type:SpriteFont
+/copy:Fonts/MessageBox.xnb
+
+#begin Fonts/Tahoma.bold.spritefont
+# default font
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Tahoma.bold.spritefont;Fonts/Tahoma.spritefont
+# bold font
+/importer:FontDescriptionImporter
+/processor:BytingFontProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/processorParam:Thickness=6
+/build:Fonts/Tahoma.bold.spritefont;Fonts/Tahoma.bold.spritefont
+
+#begin Fonts/Tiny.xnb
+#/c#type:SpriteFont
+/copy:Fonts/Tiny.xnb
+
+#begin Sounds/kickCar1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/kickCar1.wav
+
+#begin Textures/car1Color.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/car1Color.png
+
+

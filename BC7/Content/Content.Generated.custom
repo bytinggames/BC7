@@ -1,0 +1,8 @@
+@include "../../../BytingLib/BytingLib/Content/Content.Generated.custom"
+
+@include "Build/Textures.custom"
+@include "Build/Fonts.custom"
+@include "Build/Audio.custom"
+
+// ignore files here:
+@include "Build/Ignore.custom"

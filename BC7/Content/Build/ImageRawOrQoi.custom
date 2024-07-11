@@ -1,0 +1,8 @@
+$if Configuration=Debug
+@include "ImageRaw.custom"
+$endif
+$if Configuration=Release
+/importer:TextureImporter
+/processor:QoiProcessor
+/build:{0}
+$endif

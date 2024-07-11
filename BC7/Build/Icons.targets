@@ -1,0 +1,21 @@
+<!-- Icons -->
+<Project>
+	<PropertyGroup>
+		<ApplicationIcon>Build/Icons/Icon.ico</ApplicationIcon>
+		<PackageIcon>Build/Icons/Icon.png</PackageIcon>
+	</PropertyGroup>
+	<ItemGroup>
+		<Content Include="Build/Icons/Icon.ico" />
+		<EmbeddedResource Include="Build/Icons/Icon.ico">
+			<LogicalName>Icon.ico</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Build/Icons/Icon.bmp">
+			<LogicalName>Icon.bmp</LogicalName>
+			<!-- This fixes the icon not getting shown in taskbar and window bar -->
+		</EmbeddedResource>
+		<None Update="Build/Icons/Icon.png">
+			<Pack>True</Pack>
+			<PackagePath>/</PackagePath>
+		</None>
+	</ItemGroup>
+</Project>

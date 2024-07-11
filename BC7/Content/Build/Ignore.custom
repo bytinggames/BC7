@@ -1,0 +1,6 @@
+
+^.*/_settings_to_load\.txt$
+# ignore
+
+^.*/readme\.txt$
+# ignore

@@ -1,0 +1,32 @@
+// create an addition bold font for all *.bold fonts
+^.*\.bold\.spritefont$
+# default font
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:{0};{source-2}.{ext}
+# bold font
+/importer:FontDescriptionImporter
+/processor:BytingFontProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/processorParam:Thickness=6
+/build:{0};{source-1}.{ext}
+
+Fonts/.*.png$
+/importer:TextureImporter
+/processor:FontTextureProcessor
+/processorParam:FirstCharacter= 
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Color
+/build:{0}
+
+// copy already built fonts
+^.*\/Fonts\/.*\.xnb$
+#/c#type:SpriteFont
+/copy:{0}
+
+
+Fonts/Digital/readme.txt
+# ignore

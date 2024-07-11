@@ -1,0 +1,6 @@
+
+^.*\/Music\/.*_\.(ogg)$
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Low
+/build:{0}

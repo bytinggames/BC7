@@ -1,0 +1,5 @@
+// the braces show how content is built for (Debug | Release)
+
+// (raw | raw) All Textures
+^Textures\/.*\.(?i)(png|jpg|jpeg|exr)$
+@include "ImageRaw.custom"

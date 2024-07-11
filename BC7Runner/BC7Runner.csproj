@@ -1,0 +1,81 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../BytingLib/BytingLib/Build/Targets.targets" />
+	<Import Project="../../BytingLib/BytingLib/Build/BeautifyOutput.targets" />
+  <PropertyGroup>
+	<Version>0.1.0.0</Version>
+	<MGCBCommand>mgcb-byting</MGCBCommand>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RollForward>Major</RollForward>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <TieredCompilation>false</TieredCompilation>
+    <Nullable>enable</Nullable>
+	<ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <!-- Icons -->
+  <PropertyGroup>
+    <ApplicationIcon>../BC7/Build/Icons/Icon.ico</ApplicationIcon>
+    <PackageIcon>../BC7/Build/Icons/Icon.png</PackageIcon>
+  </PropertyGroup>
+	
+  <ItemGroup>
+    <Compile Remove="Content/**" />
+    <Compile Remove="Linux/**" />
+    <EmbeddedResource Remove="Content/**" />
+    <EmbeddedResource Remove="Linux/**" />
+    <None Remove="Content/**" />
+    <None Remove="Linux/**" />
+    <None Remove="app.manifest" />
+  </ItemGroup>
+
+  <!-- MonoGame Specific -->
+  <PropertyGroup>
+      <MonoGamePlatform>DesktopGL</MonoGamePlatform>
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+    
+  <ItemGroup>
+    <PackageReference Include="nulastudio.NetCoreBeauty" Version="1.2.9.3" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <Folder Include="Round1/" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <ProjectReference Include="..\BC7\BC7.csproj" />
+    <ProjectReference Include="..\BytingLib\BytingLib\BytingLib.csproj" />
+    <ProjectReference Include="..\BytingLib\BytingPipeline\BytingPipeline.csproj" />
+  </ItemGroup>
+  <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
+    <Message Text="Restoring dotnet tools" Importance="High" />
+    <Exec Command="dotnet tool restore" />
+  </Target>
+
+	<!--Move all *.mgcb to output and rename to *.mgcbcopy-->
+	<Target Name="PostBuild" AfterTargets="AfterBuild">
+		<ItemGroup>
+			<SourceFiles Include="$(ProjectDir)Content/*.mgcb" />
+		</ItemGroup>
+		<Copy SourceFiles="@(SourceFiles)" DestinationFolder="$(OutDir)Content/" />
+		<ItemGroup>
+			<SourceFiles2 Include="$(OutDir)Content/*.mgcb" />
+		</ItemGroup>
+		<Move SourceFiles="@(SourceFiles2)" DestinationFiles="@(SourceFiles2 -&gt; Replace('.mgcb', '.mgcbcopy'))" />
+	</Target>
+	<Target Name="PostPublish" AfterTargets="Publish">
+		<ItemGroup>
+			<SourceFilesPublish Include="$(ProjectDir)Content/*.mgcb" />
+		</ItemGroup>
+		<Copy SourceFiles="@(SourceFilesPublish)" DestinationFolder="$(PublishDir)Content/" />
+		<ItemGroup>
+			<SourceFilesPublish2 Include="$(PublishDir)Content/*.mgcb" />
+		</ItemGroup>
+		<Move SourceFiles="@(SourceFilesPublish2)" DestinationFiles="@(SourceFilesPublish2 -&gt; Replace('.mgcb', '.mgcbcopy'))" />
+	</Target>
+</Project>

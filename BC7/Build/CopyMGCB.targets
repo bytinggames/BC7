@@ -1,0 +1,23 @@
+<!--Move all *.mgcb to output and rename to *.mgcbcopy-->
+<Project>
+	<Target Name="PostBuild" AfterTargets="AfterBuild">
+		<ItemGroup>
+			<SourceFiles Include="$(ProjectDir)Content/*.mgcb" />
+		</ItemGroup>
+		<Copy SourceFiles="@(SourceFiles)" DestinationFolder="$(OutDir)Content/" />
+		<ItemGroup>
+			<SourceFiles2 Include="$(OutDir)Content/*.mgcb" />
+		</ItemGroup>
+		<Move SourceFiles="@(SourceFiles2)" DestinationFiles="@(SourceFiles2 -&gt; Replace('.mgcb', '.mgcbcopy'))" />
+	</Target>
+	<Target Name="PostPublish" AfterTargets="Publish">
+		<ItemGroup>
+			<SourceFilesPublish Include="$(ProjectDir)Content/*.mgcb" />
+		</ItemGroup>
+		<Copy SourceFiles="@(SourceFilesPublish)" DestinationFolder="$(PublishDir)Content/" />
+		<ItemGroup>
+			<SourceFilesPublish2 Include="$(PublishDir)Content/*.mgcb" />
+		</ItemGroup>
+		<Move SourceFiles="@(SourceFilesPublish2)" DestinationFiles="@(SourceFilesPublish2 -&gt; Replace('.mgcb', '.mgcbcopy'))" />
+	</Target>
+</Project>
