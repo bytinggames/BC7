@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="../../BytingLib/BytingLib/Build/Targets.targets" />
-	<Import Project="../../BytingLib/BytingLib/Build/BeautifyOutput.targets" />
+	<Import Project="../BytingLib/BytingLib/Build/Targets.targets" />
+	<Import Project="../BytingLib/BytingLib/Build/BeautifyOutput.targets" />
   <PropertyGroup>
 	<Version>0.1.0.0</Version>
 	<MGCBCommand>mgcb-byting</MGCBCommand>

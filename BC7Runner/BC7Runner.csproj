@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="../../BytingLib/BytingLib/Build/Targets.targets" />
-	<Import Project="../../BytingLib/BytingLib/Build/BeautifyOutput.targets" />
+	<Import Project="../BytingLib/BytingLib/Build/Targets.targets" />
+	<Import Project="../BytingLib/BytingLib/Build/BeautifyOutput.targets" />
   <PropertyGroup>
 	<Version>0.1.0.0</Version>
 	<MGCBCommand>mgcb-byting</MGCBCommand>
@@ -22,10 +22,13 @@
   <ItemGroup>
     <Compile Remove="Content/**" />
     <Compile Remove="Linux/**" />
+    <Compile Remove="Round1\**" />
     <EmbeddedResource Remove="Content/**" />
     <EmbeddedResource Remove="Linux/**" />
+    <EmbeddedResource Remove="Round1\**" />
     <None Remove="Content/**" />
     <None Remove="Linux/**" />
+    <None Remove="Round1\**" />
     <None Remove="app.manifest" />
   </ItemGroup>
 
@@ -41,10 +44,6 @@
     
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-    
-  <ItemGroup>
-    <Folder Include="Round1/" />
   </ItemGroup>
     
   <ItemGroup>

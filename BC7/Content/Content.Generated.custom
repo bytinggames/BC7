@@ -1,4 +1,4 @@
-@include "../../../BytingLib/BytingLib/Content/Content.Generated.custom"
+@include "../../BytingLib/BytingLib/Content/Content.Generated.custom"
 
 @include "Build/Textures.custom"
 @include "Build/Fonts.custom"
