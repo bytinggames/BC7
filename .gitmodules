@@ -1,0 +1,3 @@
+[submodule "BytingLib"]
+	path = BytingLib
+	url = https://github.com/bytinggames/BytingLib.git
