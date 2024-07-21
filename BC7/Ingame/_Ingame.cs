@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BC7
@@ -23,11 +24,17 @@ namespace BC7
             }
             else
             {
-                botTypes = participants.Take(2).Select(f => f.BotType).ToArray();
+                botTypes = participants.Select(f => f.BotType).ToArray();
             }
             match = new Match(botTypes);
 
-            SkullGame env = new SkullGame();
+            List<BotBrain> brains = new();
+            for (int i = 0; i < botTypes.Length; i++)
+            {
+                Activator.CreateInstance(botTypes[i], i);
+            }
+
+            SkullGame env = new SkullGame(brains);
 
             Scene scene = new Scene();
 

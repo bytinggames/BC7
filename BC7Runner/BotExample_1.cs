@@ -1,9 +1,9 @@
 ﻿namespace BC7Runner.Round1
 {
-    internal class BotExample : BotBrain
+    internal class BotExample_1 : BotBrain
     {
-        public BotExample(PublicGame game, int id)
-            : base(game, id)
+        public BotExample_1(int id)
+            : base(id)
         {
             // initialization if you want some
         }

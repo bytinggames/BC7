@@ -47,12 +47,12 @@ namespace BC7
 
             // bot and tournament stuff
             participants = botTypes.Select(f => new Participant(f)).ToArray();
-            if (botTypes.Length == 8)
-            {
-                graph = new Graph(botTypes.Select(f => f.Name).ToList());
-                if (settings.TakeGraphScreenshots)
-                    graph.TakeScreenshot += () => screenshotter.TakeScreenshot(false);
-            }
+            //if (botTypes.Length == 8)
+            //{
+            //    graph = new Graph(botTypes.Select(f => f.Name).ToList());
+            //    if (settings.TakeGraphScreenshots)
+            //        graph.TakeScreenshot += () => screenshotter.TakeScreenshot(false);
+            //}
             stuff = new StuffDisposable(typeof(IUpdate), typeof(IDrawBatch));
 
             Func<Scene> StartScene = graph != null ? CreateGraphScene : CreateIngame;

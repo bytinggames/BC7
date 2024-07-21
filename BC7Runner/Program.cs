@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 
 namespace BC7Runner
 {
@@ -13,8 +12,8 @@ namespace BC7Runner
             // the participants
             List<Type> bots = new List<Type>()
             {
-                //typeof(Wampe_2),
-                //typeof(Alex_2),
+                typeof(BotExample_1),
+                typeof(BotExample_1),
             };
 
             // set current directory to the BC7 output path, so the game can run
