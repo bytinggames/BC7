@@ -27,7 +27,7 @@ namespace BC7
             }
             match = new Match(botTypes);
 
-            Env env = new Env();
+            SkullGame env = new SkullGame();
 
             Scene scene = new Scene();
 

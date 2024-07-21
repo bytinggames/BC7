@@ -2,7 +2,7 @@
 
 namespace BC7Runner.Round1
 {
-    internal class Examples : Bot
+    internal class Examples : BotBrain
     {
         //// I recommend not using a constructor. Instead write your "begin" code in the Initialize method. There you have access to all the things :o (See Examples.cs)
 
@@ -68,12 +68,12 @@ namespace BC7Runner.Round1
         //    // (0, 0) is top left of the screen
         //    spriteBatch.DrawString(Font, $"{Env.SecondsLeft:N0} seconds left", new Vector2(0, 0), Color.White);
         //}
-        protected override DecisionPhase1 GetDecisionPhase1()
+        protected override DiscOrChallenge Step2A_DiscOrChallenge()
         {
             throw new NotImplementedException();
         }
 
-        protected override DecisionPhase2 GetDecisionPhase2()
+        protected override IncreaseOrPass Step2B_IncreaseOrPass()
         {
             throw new NotImplementedException();
         }

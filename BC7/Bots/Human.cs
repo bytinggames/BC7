@@ -1,22 +1,33 @@
 ﻿namespace BC7
 {
-    public class Human : Bot
+    public class Human : BotBrain
     {
         private readonly IHumanInput input;
 
-        public Human(IHumanInput input)
+        public Human(PublicGame game, IHumanInput input)
+            : base(game)
         {
             this.input = input;
         }
 
-        protected override DecisionPhase1 GetDecisionPhase1()
+        protected override Disc Step1_FirstDisc()
         {
-            return DecisionPhase1.PlayFlower();
+            return Disc.Flower;
         }
 
-        protected override DecisionPhase2 GetDecisionPhase2()
+        protected override DiscOrChallenge Step2A_DiscOrChallenge()
         {
-            return DecisionPhase2.Pass();
+            return DiscOrChallenge.Flower();
+        }
+
+        protected override IncreaseOrPass Step2B_IncreaseOrPass()
+        {
+            return IncreaseOrPass.Pass();
+        }
+
+        protected override Disc OnFail_ChooseOwnDiscToDestroy()
+        {
+            return Disc.Flower;
         }
     }
 }
