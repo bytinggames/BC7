@@ -1,16 +1,16 @@
 ﻿namespace BC7
 {
-    public class DiscOrChallenge
+    public class DiscOrBet
     {
         public Disc? DiscToPlay { get; }
         public int ChallengeBetAmount { get; }
 
-        public DiscOrChallenge(Disc disc)
+        public DiscOrBet(Disc disc)
         {
             DiscToPlay = disc;
         }
 
-        public DiscOrChallenge(int betAmount)
+        public DiscOrBet(int betAmount)
         {
             if (betAmount <= 0)
             {
@@ -19,9 +19,9 @@
             ChallengeBetAmount = betAmount;
         }
 
-        public static DiscOrChallenge Flower() => new DiscOrChallenge(Disc.Flower);
-        public static DiscOrChallenge Skull() => new DiscOrChallenge(Disc.Skull);
-        public static DiscOrChallenge Bet(int amount) => new DiscOrChallenge(amount);
+        public static DiscOrBet Flower() => new DiscOrBet(Disc.Flower);
+        public static DiscOrBet Skull() => new DiscOrBet(Disc.Skull);
+        public static DiscOrBet Bet(int amount) => new DiscOrBet(amount);
     }
 
 

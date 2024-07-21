@@ -1,6 +1,6 @@
 ﻿namespace BC7
 {
-    internal class Discs : IDiscs
+    public class Discs : IDiscs
     {
         public int Flowers { get; set; }
         public int Skulls { get; set; }

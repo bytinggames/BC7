@@ -2,6 +2,7 @@
 {
     public struct PublicBot
     {
+        public int ID { get; }
         public int DiscsInHandCount { get; }
         public int DiscsPlayedCount { get; }
         public Discs DiscsRevealed { get; }
@@ -11,8 +12,9 @@
         /// </summary>
         public int LastBidThisRound { get; }
 
-        public PublicBot(int discsInHandCount, int discsPlayedCount, Discs discsRevealed, int discsDestroyedCount, int lastBidThisRound)
+        public PublicBot(int id, int discsInHandCount, int discsPlayedCount, Discs discsRevealed, int discsDestroyedCount, int lastBidThisRound)
         {
+            ID = id;
             DiscsInHandCount = discsInHandCount;
             DiscsPlayedCount = discsPlayedCount;
             DiscsRevealed = discsRevealed;

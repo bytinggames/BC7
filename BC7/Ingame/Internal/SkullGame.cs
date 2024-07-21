@@ -42,7 +42,7 @@ namespace BC7
                     yield return null; // before player taking step 2A
 
                     var bot = Bots[turnIndex];
-                    var discOrChallenge = bot.Brain.Step2A_DiscOrChallenge();
+                    var discOrChallenge = bot.Brain.Step2A_DiscOrBet();
 
                     if (discOrChallenge.DiscToPlay == null // either bot decided to not play a disk
                         || bot.Data.DiscsInHand.TryMoveDiscTo(discOrChallenge.DiscToPlay.Value, bot.Data.DiscsPlayed) == null) // or decided to and wasn't able, because he had no discs 
@@ -114,13 +114,15 @@ namespace BC7
                     {
                         // then let him choose which discs to reveal next
                         int[] options = Bots.Where(f => f.Data.DiscsPlayed.Count() > 0).Select(f => f.Data.ID).ToArray();
+                        options.Shuffle(rand);
+
                         int playerIDToRevealFrom;
                         if (options.Length > 1)
                         {
                             playerIDToRevealFrom = challenger.Brain.Step3_ChoosePlayerToFlip1Disc(options);
                             if (!options.Contains(playerIDToRevealFrom))
                             {
-                                playerIDToRevealFrom = options[rand.Next(options.Length)];
+                                playerIDToRevealFrom = options[0];
                             }
                         }
                         else

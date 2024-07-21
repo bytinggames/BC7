@@ -4,8 +4,8 @@ namespace BC7
 {
     public class Human : BotBrain
     {
-        public Human(PublicGame game)
-            : base(game)
+        public Human(PublicGame game, int id)
+            : base(game, id)
         {
         }
 
@@ -15,21 +15,21 @@ namespace BC7
             return Console.ReadLine()?.ToUpper() == "F" ? Disc.Flower : Disc.Skull;
         }
 
-        public override DiscOrChallenge Step2A_DiscOrChallenge()
+        public override DiscOrBet Step2A_DiscOrBet()
         {
             Console.WriteLine("Play [f]lower, [s]kull or Challenge [amount]?");
             string? input = Console.ReadLine();
             if (input?.ToUpper() == "F")
             {
-                return DiscOrChallenge.Flower();
+                return DiscOrBet.Flower();
             }
             else if (int.TryParse(input, out int number))
             {
-                return DiscOrChallenge.Bet(number);
+                return DiscOrBet.Bet(number);
             }
             else
             {
-                return DiscOrChallenge.Skull();
+                return DiscOrBet.Skull();
             }
         }
 
