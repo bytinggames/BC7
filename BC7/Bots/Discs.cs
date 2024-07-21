@@ -1,6 +1,6 @@
 ﻿namespace BC7
 {
-    public class Discs : IDiscs
+    internal class Discs : IDiscs
     {
         public int Flowers { get; set; }
         public int Skulls { get; set; }
@@ -30,7 +30,7 @@
         /// false: played other disc
         /// null: played none, because none available
         /// </summary>
-        internal bool? TryMoveDiscTo(Disc disc, IDiscs target)
+        public bool? TryMoveDiscTo(Disc disc, IDiscs target)
         {
             // loop:
             // first iteration: try to play the given disc
@@ -60,7 +60,7 @@
             return null;
         }
 
-        internal void AddFlower() => Flowers++;
-        internal void AddSkull() => Skulls++;
+        public void AddFlower() => Flowers++;
+        public void AddSkull() => Skulls++;
     }
 }

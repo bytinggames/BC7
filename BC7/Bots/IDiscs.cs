@@ -5,8 +5,8 @@
         public int Flowers { get; }
         public int Skulls { get; }
 
-        void AddFlower();
-        void AddSkull();
+        public void AddFlower();
+        public void AddSkull();
     }
 
     internal static class IDsiscsExtension

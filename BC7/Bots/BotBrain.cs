@@ -23,7 +23,7 @@ namespace BC7
         /// <summary>
         /// Return the ID of the chosen player. This is only executed, after all your own discs have been revealed and if there are more than 1 possible players to choose from.
         /// </summary>
-        public abstract int Step3_ChoosePlayerToFlip1Disc(List<int> playerIDsToChooseFrom);
+        public abstract int Step3_ChoosePlayerToFlip1Disc(int[] playerIDsToChooseFrom);
         public abstract Disc OnFail_ChooseOwnDiscToDestroy();
     }
 }

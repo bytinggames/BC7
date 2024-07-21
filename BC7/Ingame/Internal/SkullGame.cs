@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace BC7
 {
-    internal class SkullGame
+    internal class SkullGame : IDraw
     {
         public List<Bot> Bots { get; } = new();
         public List<Bot> BotsDead { get; } = new();
@@ -39,14 +39,13 @@ namespace BC7
                 Bot? challenger = null;
                 while (true)
                 {
+                    yield return null; // before player taking step 2A
+
                     var bot = Bots[turnIndex];
                     var discOrChallenge = bot.Brain.Step2A_DiscOrChallenge();
 
-                    if (discOrChallenge.DiscToPlay != null)
-                    {
-                        bot.Data.DiscsInHand.TryMoveDiscTo(discOrChallenge.DiscToPlay.Value, bot.Data.DiscsPlayed);
-                    }
-                    else
+                    if (discOrChallenge.DiscToPlay == null // either bot decided to not play a disk
+                        || bot.Data.DiscsInHand.TryMoveDiscTo(discOrChallenge.DiscToPlay.Value, bot.Data.DiscsPlayed) == null) // or decided to and wasn't able, because he had no discs 
                     {
                         challenger = bot;
                         bet = discOrChallenge.ChallengeBetAmount;
@@ -62,7 +61,7 @@ namespace BC7
                     }
 
                     // next player
-                    
+
                     turnIndex = (turnIndex + 1) % Bots.Count;
                 }
 
@@ -71,6 +70,8 @@ namespace BC7
                 bool heighestPossibleBetIncreasedBy1 = false;
                 while (Bots.Count(f => f.Data.Passed) == Bots.Count - 1)
                 {
+                    yield return null; // before player taking step 2B
+
                     var bot = Bots[turnIndex];
                     var increaseOrPass = bot.Brain.Step2B_IncreaseOrPass(bet);
                     if (increaseOrPass.BetAmount == 0)
@@ -102,6 +103,7 @@ namespace BC7
                 while (Bots.Sum(f => f.Data.DiscsRevealed.Count()) < bet // you have still discs to flip around
                     && Bots.Any(f => f.Data.DiscsPlayed.Count() > 0)) // there are still concealed discs available to flip
                 {
+                    yield return null; // before revealing a disc
                     BotData playerDataToRevealFrom;
                     if (challenger.Data.DiscsPlayed.Count() > 0)
                     {
@@ -111,14 +113,14 @@ namespace BC7
                     else
                     {
                         // then let him choose which discs to reveal next
-                        List<int> options = Bots.Where(f => f.Data.DiscsPlayed.Count() > 0).Select(f => f.Data.ID).ToList();
+                        int[] options = Bots.Where(f => f.Data.DiscsPlayed.Count() > 0).Select(f => f.Data.ID).ToArray();
                         int playerIDToRevealFrom;
-                        if (options.Count > 1)
+                        if (options.Length > 1)
                         {
                             playerIDToRevealFrom = challenger.Brain.Step3_ChoosePlayerToFlip1Disc(options);
                             if (!options.Contains(playerIDToRevealFrom))
                             {
-                                playerIDToRevealFrom = options[rand.Next(options.Count)];
+                                playerIDToRevealFrom = options[rand.Next(options.Length)];
                             }
                         }
                         else
@@ -199,6 +201,11 @@ namespace BC7
                     }
                 }
             } while (Bots.All(f => f.Data.Successes < 2));
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.GraphicsDevice.Clear(Color.Yellow);
         }
     }
 }

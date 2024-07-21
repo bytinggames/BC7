@@ -1,33 +1,66 @@
-﻿namespace BC7
+﻿using System;
+
+namespace BC7
 {
     public class Human : BotBrain
     {
-        private readonly IHumanInput input;
-
-        public Human(PublicGame game, IHumanInput input)
+        public Human(PublicGame game)
             : base(game)
         {
-            this.input = input;
         }
 
-        protected override Disc Step1_FirstDisc()
+        public override Disc Step1_FirstDisc()
         {
-            return Disc.Flower;
+            Console.WriteLine("Play [f]lower or [s]kull?");
+            return Console.ReadLine()?.ToUpper() == "F" ? Disc.Flower : Disc.Skull;
         }
 
-        protected override DiscOrChallenge Step2A_DiscOrChallenge()
+        public override DiscOrChallenge Step2A_DiscOrChallenge()
         {
-            return DiscOrChallenge.Flower();
+            Console.WriteLine("Play [f]lower, [s]kull or Challenge [amount]?");
+            string? input = Console.ReadLine();
+            if (input?.ToUpper() == "F")
+            {
+                return DiscOrChallenge.Flower();
+            }
+            else if (int.TryParse(input, out int number))
+            {
+                return DiscOrChallenge.Bet(number);
+            }
+            else
+            {
+                return DiscOrChallenge.Skull();
+            }
         }
 
-        protected override IncreaseOrPass Step2B_IncreaseOrPass()
+        public override IncreaseOrPass Step2B_IncreaseOrPass(int heighestBet)
         {
-            return IncreaseOrPass.Pass();
+            Console.WriteLine("Increase bet to [amount] or [p]ass?");
+            string? input = Console.ReadLine();
+            if (int.TryParse(input, out int number))
+            {
+                return IncreaseOrPass.Bet(number);
+            }
+            else
+            {
+                return IncreaseOrPass.Pass();
+            }
         }
 
-        protected override Disc OnFail_ChooseOwnDiscToDestroy()
+        public override int Step3_ChoosePlayerToFlip1Disc(int[] playerIDsToChooseFrom)
         {
-            return Disc.Flower;
+            Console.WriteLine("Which player to flip? " + string.Join(", ", playerIDsToChooseFrom));
+            if (int.TryParse(Console.ReadLine(), out int number))
+            {
+                return number;
+            }
+            return playerIDsToChooseFrom[0];
+        }
+
+        public override Disc OnFail_ChooseOwnDiscToDestroy()
+        {
+            Console.WriteLine("Destroy [f]lower or [s]kull?");
+            return Console.ReadLine()?.ToUpper() == "F" ? Disc.Flower : Disc.Skull;
         }
     }
 }
