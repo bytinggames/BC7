@@ -48,6 +48,7 @@
 
         public override Disc OnFail_ChooseOwnDiscToDestroy()
         {
+            Game.BotsAlive[0].Data.DiscsRevealed // TODO: inspect, but not be able to inspect DiscsPlayed
             // not that important... I think? Not sure, you decide!
 
             return Disc.Flower;

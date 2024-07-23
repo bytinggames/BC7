@@ -12,7 +12,7 @@
     public static class IDsiscsExtension
     {
         public static int Count(this DiscsParent discs) => discs.Flowers + discs.Skulls;
-        public static void Add(this DiscsParent discs, Disc disc)
+        internal static void Add(this DiscsParent discs, Disc disc)
         {
             if (disc == Disc.Flower)
             {
