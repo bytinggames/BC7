@@ -1,14 +1,16 @@
 ﻿namespace BC7
 {
-    internal class Bot
+    public class Bot
     {
-        public BotBrain Brain { get; }
+        internal BotBrain Brain { get; }
         public BotData Data { get; }
+        internal BotVisual Visual { get; }
 
-        public Bot(BotBrain brain, BotData data)
+        internal Bot(BotBrain brain, BotData data, BotVisual visual)
         {
             Brain = brain;
             Data = data;
+            Visual = visual;
         }
     }
 }

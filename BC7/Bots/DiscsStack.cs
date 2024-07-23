@@ -4,28 +4,38 @@ using System.Linq;
 
 namespace BC7
 {
-    internal class DiscsStack : IDiscs
+    public class DiscsStack : DiscsParent
     {
-        public Stack<Disc> DiscStack { get; } = new();
+        internal List<Disc> Discs { get; private set; } = new();
 
-        public int Flowers => DiscStack.Count(f => f == Disc.Flower);
-        public int Skulls => DiscStack.Count(f => f == Disc.Skull);
+        internal override int Flowers => Discs.Count(f => f == Disc.Flower);
+        internal override int Skulls => Discs.Count(f => f == Disc.Skull);
 
-        public void AddFlower()
+        internal override void AddFlower()
         {
-            DiscStack.Push(Disc.Flower);
+            Discs.Add(Disc.Flower);
         }
 
-        public void AddSkull()
+        internal override void AddSkull()
         {
-            DiscStack.Push(Disc.Skull);
+            Discs.Add(Disc.Skull);
         }
 
-        public Disc MoveTopTo(IDiscs target)
+        internal Disc MoveTopTo(DiscsParent target)
         {
-            Disc disc = DiscStack.Pop();
+            Disc disc = Discs[Discs.Count - 1];
+            Discs.RemoveAt(Discs.Count - 1);
             target.Add(disc);
             return disc;
+        }
+
+        internal DiscsStack Clone()
+        {
+            DiscsStack clone = (DiscsStack)MemberwiseClone();
+
+            clone.Discs = Discs.ToList();
+
+            return clone;
         }
     }
 }

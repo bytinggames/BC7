@@ -1,66 +1,140 @@
 ﻿using System;
+using System.Linq;
 
 namespace BC7
 {
     public class Human : BotBrain
     {
-        public Human(PublicGame game, int id)
-            : base(game, id)
+        private readonly KeyInput keys;
+
+        int numberInput = 0;
+
+        public Human(KeyInput keys)
         {
+            this.keys = keys;
+        }
+
+        protected override void Initialize()
+        {
+
         }
 
         public override Disc Step1_FirstDisc()
         {
-            Console.WriteLine("Play [f]lower or [s]kull?");
-            return Console.ReadLine()?.ToUpper() == "F" ? Disc.Flower : Disc.Skull;
+            if (keys.F.Pressed)
+            {
+                Thoughts = "";
+                return Disc.Flower;
+            }
+            else if (keys.S.Pressed)
+            {
+                Thoughts = "";
+                return Disc.Skull;
+            }
+            Thoughts = "Play [f]lower or [s]kull?";
+            return (Disc)int.MinValue;
         }
 
         public override DiscOrBet Step2A_DiscOrBet()
         {
-            Console.WriteLine("Play [f]lower, [s]kull or Challenge [amount]?");
-            string? input = Console.ReadLine();
-            if (input?.ToUpper() == "F")
+            if (keys.F.Pressed)
             {
+                numberInput = 0;
+                Thoughts = "";
                 return DiscOrBet.Flower();
             }
-            else if (int.TryParse(input, out int number))
+            else if (keys.S.Pressed)
             {
-                return DiscOrBet.Bet(number);
+                numberInput = 0;
+                Thoughts = "";
+                return DiscOrBet.Skull();
+            }
+            else if (keys.Enter.Pressed)
+            {
+                int n = numberInput;
+                numberInput = 0;
+                Thoughts = "";
+                return DiscOrBet.Bet(n);
             }
             else
             {
-                return DiscOrBet.Skull();
+                for (int i = 0; i <= 9; i++)
+                {
+                    if (keys.Number(i).Pressed)
+                    {
+                        numberInput *= 10;
+                        numberInput += i;
+                    }
+                }
             }
+
+            Thoughts = "Play [f]lower, [s]kull or Challenge [amount]?";
+            return null;
         }
 
         public override IncreaseOrPass Step2B_IncreaseOrPass(int heighestBet)
         {
-            Console.WriteLine("Increase bet to [amount] or [p]ass?");
-            string? input = Console.ReadLine();
-            if (int.TryParse(input, out int number))
+            if (keys.P.Pressed)
             {
-                return IncreaseOrPass.Bet(number);
+                numberInput = 0;
+                Thoughts = "";
+                return IncreaseOrPass.Pass();
+            }
+            else if (keys.Enter.Pressed)
+            {
+                int n = numberInput;
+                numberInput = 0;
+                Thoughts = "";
+                return IncreaseOrPass.Bet(n);
             }
             else
             {
-                return IncreaseOrPass.Pass();
+                for (int i = 0; i <= 9; i++)
+                {
+                    if (keys.Number(i).Pressed)
+                    {
+                        numberInput *= 10;
+                        numberInput += i;
+                    }
+                }
             }
+
+            Thoughts = "Increase bet to [amount] or [p]ass?";
+            return null;
         }
 
         public override int Step3_ChoosePlayerToFlip1Disc(int[] playerIDsToChooseFrom)
         {
-            Console.WriteLine("Which player to flip? " + string.Join(", ", playerIDsToChooseFrom));
-            if (int.TryParse(Console.ReadLine(), out int number))
+
+            for (int i = 0; i <= 9; i++)
             {
-                return number;
+                if (keys.Number(i).Pressed)
+                {
+                    if (playerIDsToChooseFrom.Contains(i))
+                    {
+                        Thoughts = "";
+                        return i;
+                    }
+                }
             }
-            return playerIDsToChooseFrom[0];
+            Thoughts = "Which player to flip? " + string.Join(", ", playerIDsToChooseFrom);
+            return int.MinValue;
         }
 
         public override Disc OnFail_ChooseOwnDiscToDestroy()
         {
-            Console.WriteLine("Destroy [f]lower or [s]kull?");
-            return Console.ReadLine()?.ToUpper() == "F" ? Disc.Flower : Disc.Skull;
+            if (keys.F.Pressed)
+            {
+                Thoughts = "";
+                return Disc.Flower;
+            }
+            else if (keys.S.Pressed)
+            {
+                Thoughts = "";
+                return Disc.Skull;
+            }
+            Thoughts = "Destroy [f]lower or [s]kull?";
+            return (Disc)int.MinValue;
         }
     }
 }

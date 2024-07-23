@@ -12,11 +12,11 @@ namespace BC7Runner
             // the participants
             List<Type> bots = new List<Type>()
             {
-                typeof(BotExample_1),
-                typeof(BotExample_1),
+                typeof(Human),
+                typeof(Human),
             };
 
-            // set current directory to the BC7 output path, so the game can run
+            // set current directory to the BC7 output path, so the Game can run
             GotoGameDirectory("BC7");
             BC7.Program.Run(bots);
         }

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
+using System;
 
 namespace BC7
 {
@@ -9,12 +9,23 @@ namespace BC7
         protected Discs Played { get; private set; }
         protected Discs Revealed { get; private set; }
         protected Discs Destroyed { get; private set; }
-        protected int ID { get; }
+        protected SkullGame Game { get; private set; }
+        protected int ID { get; private set; }
+        public Color Color { get; protected set; }
+        public string Thoughts { get; protected set; } = "";
 
-        public BotBrain(int id)
+        internal void InitializeBase(SkullGame game, int id)
         {
-            ID = id;
+            this.Game = game;
+            this.ID = id;
+
+            Random rand = new Random(GetType().Name.GetHashCode());
+            Color = rand.NextColor();
+
+            Initialize();
         }
+
+        protected abstract void Initialize();
 
         public abstract Disc Step1_FirstDisc();
         public abstract DiscOrBet Step2A_DiscOrBet();

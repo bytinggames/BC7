@@ -17,7 +17,7 @@ namespace BC7
         private Settings settings => settingsManager.Settings;
 
         public bool End { get; internal set; }
-        public Color ClearColor { get; private set; } = Colors.TournamentBackground;
+        public Color ClearColor { get; private set; } = Colors.Background;
 
         private readonly Participant[] participants;
         private readonly Graph? graph;
@@ -91,6 +91,11 @@ namespace BC7
                     Loca.Dict = Loca.L.GetDictionary();
                 };
             }
+        }
+
+        public override void UpdateInactive(GameTime gameTime)
+        {
+            base.UpdateActive(gameTime);
         }
 
         protected override void UpdateIteration(GameTime gameTime)

@@ -6,6 +6,8 @@ namespace BC7
 {
     public partial class GlobalGame
     {
+        private PublicGame publicGame;
+
         private Scene CreateIngame()
         {
             Type[] botTypes;
@@ -28,26 +30,52 @@ namespace BC7
             }
             match = new Match(botTypes);
 
+            //List<PublicBot> publicBots = new List<PublicBot>();
+            //for (int i = 0; i < botTypes.Length; i++)
+            //{
+            //    publicBots.Add(new PublicBot(i, 
+            //}
+            //publicGame = new PublicGame(botTypes.Length);
+            //publicGame.UpdateState();
+            //new(), new(), new());
+
             List<BotBrain> brains = new();
             for (int i = 0; i < botTypes.Length; i++)
             {
-                Activator.CreateInstance(botTypes[i], i);
+                object? instance;
+                if (botTypes[i] == typeof(Human))
+                {
+                    instance = new Human(input.Keys);
+                }
+                else
+                {
+                    instance = Activator.CreateInstance(botTypes[i]);
+                }
+                if (instance is BotBrain bot)
+                {
+                    brains.Add(bot);
+                }
             }
 
-            SkullGame env = new SkullGame(brains);
+            var texs = Content.Textures;
+            SkullGame game = new SkullGame(brains, windowManager, 
+                new(texs.Mat_0Tex, texs.Mat_1Tex, texs.FlowerTex, texs.SkullTex, texs.BackTex, Content.Fonts.TahomaFont));
+
+            SkullGameContainer gameContainer = new(game, input.Keys, windowManager, Content.Fonts.TahomaFont);
 
             Scene scene = new Scene();
+            scene.Add(gameContainer);
 
-            //Map scene = new Map(env, input.Mouse, input.Keys, levelData.Entities, levelData.Street, updateSpeed, drawSpeed, match, settingsManager);
-            //env.Map = scene;
-            //for (int i = 0; i < env.Bots.Count; i++)
+            //Map scene = new Map(game, input.Mouse, input.Keys, levelData.Entities, levelData.Street, updateSpeed, drawSpeed, match, settingsManager);
+            //game.Map = scene;
+            //for (int i = 0; i < game.BotsAlive.Count; i++)
             //{
-            //    env.Bots[i].OnMapLoaded(env, i, settingsManager);
+            //    game.BotsAlive[i].OnMapLoaded(game, i, settingsManager);
             //}
 
 
             //scene.OnMatchFinished = MatchFinished;
-            
+
             //if (settings.KeyShortcuts)
             //    scene.Add(new UpdateTrigger(() => input.Keys.Enter.Pressed, scene.ForceMatchEnd));
 

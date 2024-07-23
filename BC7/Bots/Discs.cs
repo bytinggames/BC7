@@ -1,19 +1,22 @@
 ﻿namespace BC7
 {
-    public class Discs : IDiscs
+    public class Discs : DiscsParent
     {
-        public int Flowers { get; set; }
-        public int Skulls { get; set; }
+        private int flowers;
+        private int skulls;
+
+        internal override int Flowers => flowers;
+        internal override int Skulls => skulls;
 
         public Discs(int flowers, int skulls)
         {
-            this.Flowers = flowers;
-            this.Skulls = skulls;
+            this.flowers = flowers;
+            this.skulls = skulls;
         }
 
         public Discs() : this(0, 0) { }
 
-        public bool Has(Disc disc)
+        internal bool Has(Disc disc)
         {
             if (disc == Disc.Flower)
             {
@@ -30,7 +33,7 @@
         /// false: played other disc
         /// null: played none, because none available
         /// </summary>
-        public bool? TryMoveDiscTo(Disc disc, IDiscs target)
+        internal bool? TryMoveDiscTo(Disc disc, DiscsParent target)
         {
             // loop:
             // first iteration: try to play the given disc
@@ -42,13 +45,13 @@
                 {
                     if (disc == Disc.Flower)
                     {
-                        Flowers--;
+                        flowers--;
                         target.AddFlower();
                         return i == 0;
                     }
                     else
                     {
-                        Skulls--;
+                        skulls--;
                         target.AddSkull();
                         return i == 0;
                     }
@@ -60,7 +63,7 @@
             return null;
         }
 
-        public void AddFlower() => Flowers++;
-        public void AddSkull() => Skulls++;
+        internal override void AddFlower() => flowers++;
+        internal override void AddSkull() => skulls++;
     }
 }

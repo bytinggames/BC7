@@ -2,8 +2,7 @@
 {
     internal class BotExample_1 : BotBrain
     {
-        public BotExample_1(int id)
-            : base(id)
+        protected override void Initialize()
         {
             // initialization if you want some
         }
@@ -13,7 +12,7 @@
             // TODO
 
             // example: always return a skull if there are less than 3 bots alive:
-            if (game.GetAliveOpponentBots(ID).Count < 3)
+            if (Game.GetAliveOpponentBots(ID).Count < 3)
             {
                 return Disc.Skull;
             }
