@@ -69,7 +69,9 @@ namespace BC7
             }
 
             Thoughts = "Play [f]lower, [s]kull or Challenge [amount]?";
+#pragma warning disable CS8603 // Possible null reference return.
             return null;
+#pragma warning restore CS8603 // Possible null reference return.
         }
 
         public override IncreaseOrPass Step2B_IncreaseOrPass(int heighestBet)
@@ -100,7 +102,9 @@ namespace BC7
             }
 
             Thoughts = "Increase bet to [amount] or [p]ass?";
+#pragma warning disable CS8603 // Possible null reference return.
             return null;
+#pragma warning restore CS8603 // Possible null reference return.
         }
 
         public override int Step3_ChoosePlayerToFlip1Disc(int[] playerIDsToChooseFrom)
