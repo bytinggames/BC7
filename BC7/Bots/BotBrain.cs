@@ -14,6 +14,7 @@ namespace BC7
         protected SkullGame Game { get; private set; }
         protected int ID { get; private set; }
         public Color Color { get; protected set; }
+        internal Color ColorWithoutHue => Color.ToHSV().SetSaturation(0f).TimesValue(100f / 77f /* default value of the blue disc color */).ToRGB();
         public string Thoughts { get; protected set; } = "";
 
         internal void InitializeBase(SkullGame game, int id)
@@ -28,7 +29,7 @@ namespace BC7
                 seed = BitConverter.ToInt32(result);
             }
             Random rand = new Random(seed);
-            Color = Color.White;// rand.NextColor();
+            Color = new HSVColor(rand.NextSingle() * 360f, 1f, 1f).ToRGB();// rand.NextColor();
 
             Initialize();
         }

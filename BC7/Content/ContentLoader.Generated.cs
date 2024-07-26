@@ -9,6 +9,7 @@ namespace BC7
 {
     public class ContentLoader
     {
+        public _Effects Effects { get; }
         public _Fonts Fonts { get; }
         public _Sounds Sounds { get; }
         public _Textures Textures { get; }
@@ -20,6 +21,7 @@ namespace BC7
             this.collector = collector;
             this.disposables = disposables;
             this.basePath = "";
+            Effects = new _Effects(collector, disposables);
             Fonts = new _Fonts(collector, disposables);
             Sounds = new _Sounds(collector, disposables);
             Textures = new _Textures(collector, disposables);
@@ -27,6 +29,42 @@ namespace BC7
         public Ref<T> Use<T>(string assetNameWithoutDirectory)
         {
             return disposables.Use(collector.Use<T>(basePath + assetNameWithoutDirectory));
+        }
+        public class _Effects
+        {
+            public _D2 D2 { get; }
+            protected readonly IContentCollector collector;
+            protected readonly DisposableContainer disposables;
+            protected readonly string basePath;
+            public _Effects(IContentCollector collector, DisposableContainer disposables)
+            {
+                this.collector = collector;
+                this.disposables = disposables;
+                this.basePath = "Effects/";
+                D2 = new _D2(collector, disposables);
+            }
+            public Ref<T> Use<T>(string assetNameWithoutDirectory)
+            {
+                return disposables.Use(collector.Use<T>(basePath + assetNameWithoutDirectory));
+            }
+            public class _D2
+            {
+                protected readonly IContentCollector collector;
+                protected readonly DisposableContainer disposables;
+                protected readonly string basePath;
+                public _D2(IContentCollector collector, DisposableContainer disposables)
+                {
+                    this.collector = collector;
+                    this.disposables = disposables;
+                    this.basePath = "Effects/D2/";
+                    HueShiftFx = disposables.Use(collector.Use<Effect>(basePath + "HueShift"));
+                }
+                public Ref<T> Use<T>(string assetNameWithoutDirectory)
+                {
+                    return disposables.Use(collector.Use<T>(basePath + assetNameWithoutDirectory));
+                }
+                public Ref<Effect> HueShiftFx { get; }
+            }
         }
         public class _Fonts
         {

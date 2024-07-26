@@ -59,11 +59,11 @@ namespace BC7
 
             var texs = Content.Textures;
             SkullGame game = new SkullGame(brains, windowManager, 
-                new(texs.Mat_0Tex, texs.Mat_1Tex, texs.FlowerTex, texs.SkullTex, texs.BackTex, Content.Fonts.TahomaFont));
+                new(texs.Mat_0Tex, texs.Mat_1Tex, texs.FlowerTex, texs.SkullTex, texs.BackTex, Content.Fonts.TahomaFont, shaders.HueShift));
 
             SkullGameContainer gameContainer = new(game, input.Keys, windowManager, Content.Fonts.TahomaFont);
 
-            Scene scene = new Scene();
+            Scene scene = new SceneIngame(shaders.HueShift);
             scene.Add(gameContainer);
 
             //Map scene = new Map(game, input.Mouse, input.Keys, levelData.Entities, levelData.Street, updateSpeed, drawSpeed, match, settingsManager);

@@ -8,7 +8,8 @@ namespace BC7
         Ref<Texture2D> TexFlower,
         Ref<Texture2D> TexSkull, 
         Ref<Texture2D> TexBack,
-        Ref<SpriteFont> Font);
+        Ref<SpriteFont> Font,
+        ShaderHueShift ShaderHueShift);
 
     internal class BotVisual
     {
@@ -30,49 +31,58 @@ namespace BC7
                 return;
             }
 
-            var texMat = data.Successes == 0 ? assets.TexMat0 : assets.TexMat1;
-            var matRect = Anchor.Center(pos).Rectangle(sizes.MatSize);
-            DrawOutline(sizes.OutlineThickness, 8, bot.Brain.Color, (color, outlineOffset) =>
-            {
-                var r = matRect.CloneRect();
-                r.Pos += outlineOffset;
-                texMat.Value.Draw(spriteBatch, r, color);
-            });
-            int playedCount = data.DiscsPlayed.Count();
-            for (int i = 0; i < playedCount + data.DiscsRevealed.Count(); i++)
-            {
-                float angle = MathHelper.TwoPi / MaxDiscsPlayed * i;
-                var tex = i < data.DiscsPlayed.Count() ? assets.TexBack
-                    : data.DiscsRevealed.Discs[data.DiscsRevealed.Discs.Count - 1 - (i - playedCount)] == Disc.Flower ? assets.TexFlower
-                    : assets.TexSkull;
-                float discDiameter = sizes.MatSize / texMat.Value.Width;
 
-                Random rand = new Random(bot.Brain.GetType().Name[0] + i);
-                float rotation = rand.NextSingle() * MathHelper.TwoPi;
-                DrawOutline(sizes.OutlineThickness, 16, bot.Brain.Color, (color, outlineOffset) =>
+            float hueShift = ((bot.Brain.Color.ToHSV().hue + 360f - 194f /* default hue of discs */) / 360f) % 1f;
+            using (assets.ShaderHueShift.HueShift.Use(hueShift))
+            {
+                assets.ShaderHueShift.HueShift.Apply();
+                assets.ShaderHueShift.ApplyParameters();
+                Color color = bot.Brain.ColorWithoutHue;
+
+                var texMat = data.Successes == 0 ? assets.TexMat0 : assets.TexMat1;
+                var matRect = Anchor.Center(pos).Rectangle(sizes.MatSize);
+                DrawOutline(sizes.OutlineThickness, 8, color, (color, outlineOffset) =>
                 {
-                    tex.Value.Draw(spriteBatch,
-                        Anchor.Center(pos + new Vector2(MathF.Cos(angle), MathF.Sin(angle)) * sizes.PlayedDiscsOnCircleRadius + outlineOffset),
-                        color, null, new Vector2(discDiameter), rotation);
+                    var r = matRect.CloneRect();
+                    r.Pos += outlineOffset;
+                    texMat.Value.Draw(spriteBatch, r, color);
                 });
-            }
+                int playedCount = data.DiscsPlayed.Count();
+                for (int i = 0; i < playedCount + data.DiscsRevealed.Count(); i++)
+                {
+                    float angle = MathHelper.TwoPi / MaxDiscsPlayed * i;
+                    var tex = i < data.DiscsPlayed.Count() ? assets.TexBack
+                        : data.DiscsRevealed.Discs[data.DiscsRevealed.Discs.Count - 1 - (i - playedCount)] == Disc.Flower ? assets.TexFlower
+                        : assets.TexSkull;
+                    float discDiameter = sizes.MatSize / texMat.Value.Width;
 
-            if (!string.IsNullOrWhiteSpace(bot.Brain.Thoughts))
-            {
-                assets.Font.Value.Draw(spriteBatch, bot.Brain.Thoughts, Anchor.Top(matRect.BottomV), Colors.Text);
-            }
+                    Random rand = new Random(bot.Brain.GetType().Name[0] + i);
+                    float rotation = rand.NextSingle() * MathHelper.TwoPi;
+                    DrawOutline(sizes.OutlineThickness, 16, color, (color, outlineOffset) =>
+                    {
+                        tex.Value.Draw(spriteBatch,
+                            Anchor.Center(pos + new Vector2(MathF.Cos(angle), MathF.Sin(angle)) * sizes.PlayedDiscsOnCircleRadius + outlineOffset),
+                            color, null, new Vector2(discDiameter), rotation);
+                    });
+                }
 
-            // name
-            assets.Font.Value.Draw(spriteBatch, bot.Brain.GetType().Name, Anchor.Bottom(matRect.TopV), Colors.Text);
+                if (!string.IsNullOrWhiteSpace(bot.Brain.Thoughts))
+                {
+                    assets.Font.Value.Draw(spriteBatch, bot.Brain.Thoughts, Anchor.Top(matRect.BottomV), Colors.Text);
+                }
 
-            if (bot.Data.LastBidThisRound != 0)
-            {
-                assets.Font.Value.Draw(spriteBatch, bot.Data.LastBidThisRound.ToString(), Anchor.Left(matRect.RightV), Colors.Text);
-            }
+                // name
+                assets.Font.Value.Draw(spriteBatch, bot.Brain.GetType().Name, Anchor.Bottom(matRect.TopV), Colors.Text);
 
-            if (bot.Data.Successes >= 2 || bot.Data.LastSurvivor)
-            {
-                assets.Font.Value.Draw(spriteBatch, "WINNER", Anchor.Right(matRect.LeftV), Colors.Text);
+                if (bot.Data.LastBidThisRound != 0)
+                {
+                    assets.Font.Value.Draw(spriteBatch, bot.Data.LastBidThisRound.ToString(), Anchor.Left(matRect.RightV), Colors.Text);
+                }
+
+                if (bot.Data.Successes >= 2 || bot.Data.LastSurvivor)
+                {
+                    assets.Font.Value.Draw(spriteBatch, "WINNER", Anchor.Right(matRect.LeftV), Colors.Text);
+                }
             }
         }
 

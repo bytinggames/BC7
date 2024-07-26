@@ -13,6 +13,7 @@ namespace BC7
         private readonly SettingsManager<Settings> settingsManager;
         private readonly Paths paths;
         private Func<Scene>? createCurrentScene;
+        private readonly Shaders shaders;
 
         private Settings settings => settingsManager.Settings;
 
@@ -43,6 +44,7 @@ namespace BC7
             var load = new ContentLoader(contentCollector, Use(new DisposableContainer()));
 
             GlobalContent.Initialize(load, windowManager, gDevice, paths, settingsManager);
+            shaders = CreateShaders(load);
             uiAssets = new UIAssets(load, windowManager);
 
             // bot and tournament stuff

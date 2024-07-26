@@ -22,6 +22,12 @@ $endif
 
 
 #---------------------------------- Content ---------------------------------#
+#begin Effects/D2/HueShift.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/D2/HueShift.fx
+
 #begin Fonts/MessageBox.xnb
 #/c#type:SpriteFont
 /copy:Fonts/MessageBox.xnb
