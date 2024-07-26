@@ -28,7 +28,7 @@ namespace BC7
                 seed = BitConverter.ToInt32(result);
             }
             Random rand = new Random(seed);
-            Color = rand.NextColor();
+            Color = Color.White;// rand.NextColor();
 
             Initialize();
         }

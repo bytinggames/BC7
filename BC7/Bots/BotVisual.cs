@@ -32,8 +32,12 @@ namespace BC7
 
             var texMat = data.Successes == 0 ? assets.TexMat0 : assets.TexMat1;
             var matRect = Anchor.Center(pos).Rectangle(sizes.MatSize);
-            texMat.Value.Draw(spriteBatch, matRect, bot.Brain.Color);
-
+            DrawOutline(sizes.OutlineThickness, 8, bot.Brain.Color, (color, outlineOffset) =>
+            {
+                var r = matRect.CloneRect();
+                r.Pos += outlineOffset;
+                texMat.Value.Draw(spriteBatch, r, color);
+            });
             int playedCount = data.DiscsPlayed.Count();
             for (int i = 0; i < playedCount + data.DiscsRevealed.Count(); i++)
             {
@@ -41,9 +45,16 @@ namespace BC7
                 var tex = i < data.DiscsPlayed.Count() ? assets.TexBack
                     : data.DiscsRevealed.Discs[data.DiscsRevealed.Discs.Count - 1 - (i - playedCount)] == Disc.Flower ? assets.TexFlower
                     : assets.TexSkull;
-                tex.Value.Draw(spriteBatch,
-                    Anchor.Center(pos + new Vector2(MathF.Cos(angle), MathF.Sin(angle)) * sizes.PlayedDiscsOnCircleRadius),
-                    bot.Brain.Color, null, new Vector2(sizes.DiscDiameter / tex.Value.Width));
+                float discDiameter = sizes.MatSize / texMat.Value.Width;
+
+                Random rand = new Random(bot.Brain.GetType().Name[0] + i);
+                float rotation = rand.NextSingle() * MathHelper.TwoPi;
+                DrawOutline(sizes.OutlineThickness, 16, bot.Brain.Color, (color, outlineOffset) =>
+                {
+                    tex.Value.Draw(spriteBatch,
+                        Anchor.Center(pos + new Vector2(MathF.Cos(angle), MathF.Sin(angle)) * sizes.PlayedDiscsOnCircleRadius + outlineOffset),
+                        color, null, new Vector2(discDiameter), rotation);
+                });
             }
 
             if (!string.IsNullOrWhiteSpace(bot.Brain.Thoughts))
@@ -64,6 +75,17 @@ namespace BC7
                 assets.Font.Value.Draw(spriteBatch, "WINNER", Anchor.Right(matRect.LeftV), Colors.Text);
             }
         }
+
+        private void DrawOutline(float outlineThickness, int outlineQuality, Color color, Action<Color, Vector2> drawAction)
+        {
+            for (int i = 0; i < outlineQuality; i++)
+            {
+                float angle = i * MathHelper.TwoPi / outlineQuality;
+                Vector2 offset = new Vector2(MathF.Cos(angle), MathF.Sin(angle)) * outlineThickness;
+                drawAction(Colors.Outline, offset);
+            }
+            drawAction(color, Vector2.Zero);
+        }
     }
 
     internal class Sizes
@@ -71,10 +93,10 @@ namespace BC7
         private readonly IResolution res;
         public float Scale => Math.Min(res.Resolution.X, res.Resolution.Y) / 1080f;
 
-        public float MatSize => 200f * Scale;
-        public float DiscDiameter => 70f * Scale;
-        public float PlayerSize => 300f * Scale;
-        public float PlayedDiscsOnCircleRadius => DiscDiameter * 0.3f;
+        public float MatSize => 250f * Scale;
+        public float PlayerSize => 500f * Scale;
+        public float PlayedDiscsOnCircleRadius => MatSize * 0.3f;
+        public float OutlineThickness => 4f * Scale;
 
         public Sizes(IResolution res)
         {

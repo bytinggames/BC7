@@ -81,6 +81,7 @@ namespace BC7
                 this.disposables = disposables;
                 this.basePath = "Textures/";
                 BackTex = disposables.Use(collector.Use<Texture2D>(basePath + "Back"));
+                CloverTex = disposables.Use(collector.Use<Texture2D>(basePath + "Clover"));
                 FlowerTex = disposables.Use(collector.Use<Texture2D>(basePath + "Flower"));
                 Mat_0Tex = disposables.Use(collector.Use<Texture2D>(basePath + "Mat_0"));
                 Mat_1Tex = disposables.Use(collector.Use<Texture2D>(basePath + "Mat_1"));
@@ -91,6 +92,7 @@ namespace BC7
                 return disposables.Use(collector.Use<T>(basePath + assetNameWithoutDirectory));
             }
             public Ref<Texture2D> BackTex { get; }
+            public Ref<Texture2D> CloverTex { get; }
             public Ref<Texture2D> FlowerTex { get; }
             public Ref<Texture2D> Mat_0Tex { get; }
             public Ref<Texture2D> Mat_1Tex { get; }

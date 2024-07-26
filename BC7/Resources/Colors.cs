@@ -6,6 +6,7 @@
               Placeholder = Color.Black
             , Text = Color.Black
             , Background = Color.CornflowerBlue
+            , Outline = Color.Black
             ;
     }
 }

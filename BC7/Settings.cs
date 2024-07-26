@@ -3,7 +3,7 @@
     public class Settings
     {
         public int? StartupScene { get; set; } = 1;
-        public int? MSAA { get; set; } = 8;
+        public int? MSAA { get; set; } = 4;
         public bool Fullscreen { get; set; } = false;
         public bool ShuffleBots { get; set; } = true;
         public bool TakeGraphScreenshots { get; set; } = false;
