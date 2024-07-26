@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -36,13 +35,18 @@ namespace BC7
 
         protected abstract void Initialize();
 
+        /// <summary>Everyone has to choose a disc to play as their first one.</summary>
         public abstract Disc Step1_FirstDisc();
+        /// <summary>Either play another disc or be the one who starts to bet he can flip X amount of flowers.</summary>
         public abstract DiscOrBet Step2A_DiscOrBet();
+        /// <summary>Bet you can flip more flowers or pass.</summary>
         public abstract IncreaseOrPass Step2B_IncreaseOrPass(int heighestBet);
         /// <summary>
-        /// Return the ID of the chosen player. This is only executed, after all your own discs have been revealed and if there are more than 1 possible players to choose from.
+        /// Choose a player you want to flip a disc from.
+        /// Return the ID of the chosen player. This is only executed, if you have a choice.
         /// </summary>
         public abstract int Step3_ChoosePlayerToFlip1Disc(int[] playerIDsToChooseFrom);
+        /// <summary>When you fail because you flipped your own skull, you have the advantage of choosing what disc to destroy.</summary>
         public abstract Disc OnFail_ChooseOwnDiscToDestroy();
     }
 }
