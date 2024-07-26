@@ -7,7 +7,7 @@
             , Text = Color.Black
             , TextInner = Color.White
             , TextOuter = Color.Black
-            , Background = Color.CornflowerBlue
+            , Background = Color.Gray
             , Outline = Color.Black
             ;
     }
