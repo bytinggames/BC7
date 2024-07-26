@@ -1,5 +1,7 @@
 ﻿
 using System;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace BC7
 {
@@ -19,7 +21,13 @@ namespace BC7
             this.Game = game;
             this.ID = id;
 
-            Random rand = new Random(GetType().Name.GetHashCode());
+            int seed;
+            using (var sha = SHA1.Create())
+            {
+                var result = sha.ComputeHash(Encoding.UTF8.GetBytes(GetType().Name));
+                seed = BitConverter.ToInt32(result);
+            }
+            Random rand = new Random(seed);
             Color = rand.NextColor();
 
             Initialize();
