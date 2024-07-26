@@ -15,11 +15,7 @@ namespace BC7Runner
             List<Type> bots = new List<Type>()
             {
                 typeof(Human),
-                typeof(BotExample_1),
-                typeof(BotExample_1),
-                typeof(BotExample_1),
-                typeof(BotExample_1),
-                typeof(BotExample_1),
+                typeof(Human),
             };
 
             // set current directory to the BC7 output path, so the Game can run

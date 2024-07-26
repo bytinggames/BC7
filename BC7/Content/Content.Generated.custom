@@ -6,3 +6,20 @@
 
 // ignore files here:
 @include "Build/Ignore.custom"
+
+
+// create an addition bold font for all *.bold fonts
+^.*Tahoma\.bold\.spritefont$
+# default font
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:{0};{source-2}.{ext}
+# bold font
+/importer:FontDescriptionImporter
+/processor:BytingFontProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/processorParam:Thickness=3
+/build:{0};{source-1}.{ext}

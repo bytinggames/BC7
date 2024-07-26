@@ -9,6 +9,9 @@ namespace BC7
         Ref<Texture2D> TexSkull, 
         Ref<Texture2D> TexBack,
         Ref<SpriteFont> Font,
+        Ref<SpriteFont> FontBold,
+        Ref<SpriteFont> FontBig,
+        Ref<SpriteFont> FontBigBold,
         ShaderHueShift ShaderHueShift);
 
     internal class BotVisual
@@ -48,13 +51,13 @@ namespace BC7
                     texMat.Value.Draw(spriteBatch, r, color);
                 });
                 int playedCount = data.DiscsPlayed.Count();
+                float discDiameter = sizes.MatSize / texMat.Value.Width;
                 for (int i = 0; i < playedCount + data.DiscsRevealed.Count(); i++)
                 {
                     float angle = MathHelper.TwoPi / MaxDiscsPlayed * i;
                     var tex = i < data.DiscsPlayed.Count() ? assets.TexBack
                         : data.DiscsRevealed.Discs[data.DiscsRevealed.Discs.Count - 1 - (i - playedCount)] == Disc.Flower ? assets.TexFlower
                         : assets.TexSkull;
-                    float discDiameter = sizes.MatSize / texMat.Value.Width;
 
                     Random rand = new Random(bot.Brain.GetType().Name[0] + i);
                     float rotation = rand.NextSingle() * MathHelper.TwoPi;
@@ -68,15 +71,21 @@ namespace BC7
 
                 if (!string.IsNullOrWhiteSpace(bot.Brain.Thoughts))
                 {
-                    assets.Font.Value.Draw(spriteBatch, bot.Brain.Thoughts, Anchor.Top(matRect.BottomV), Colors.Text);
+                    string wrapped = assets.Font.Value.WrapText(bot.Brain.Thoughts, sizes.ThoughtsWidth, 1f, out _);
+                    assets.Font.Value.Draw(spriteBatch, wrapped, Anchor.Top(matRect.GetCenter() + new Vector2(0f, sizes.PlayedDiscsOnCircleRadius + discDiameter * assets.TexBack.Value.Height / 2f + sizes.SpaceToText)), Colors.Text);
                 }
 
                 // name
-                assets.Font.Value.Draw(spriteBatch, bot.Brain.GetType().Name, Anchor.Bottom(matRect.TopV), Colors.Text);
+                Anchor anchor = Anchor.Bottom(matRect.TopV + new Vector2(0f, -sizes.SpaceToText));
+                assets.FontBold.Value.Draw(spriteBatch, bot.Brain.GetType().Name, anchor, Colors.TextOuter);
+                assets.Font.Value.Draw(spriteBatch, bot.Brain.GetType().Name, anchor, Colors.TextInner);
 
                 if (bot.Data.LastBidThisRound != 0)
                 {
-                    assets.Font.Value.Draw(spriteBatch, bot.Data.LastBidThisRound.ToString(), Anchor.Left(matRect.RightV), Colors.Text);
+                    //Anchor anchor = matRect.GetCenterAnchor();
+                    anchor = Anchor.Bottom(matRect.TopV - new Vector2(0f, sizes.SpaceToText * 2f + assets.Font.Value.DefaultCharacterHeight));
+                    assets.FontBigBold.Value.Draw(spriteBatch, bot.Data.LastBidThisRound.ToString(), anchor, Colors.TextOuter);
+                    assets.FontBig.Value.Draw(spriteBatch, bot.Data.LastBidThisRound.ToString(), anchor, Colors.TextInner);
                 }
 
                 if (bot.Data.Successes >= 2 || bot.Data.LastSurvivor)
@@ -105,8 +114,10 @@ namespace BC7
 
         public float MatSize => 250f * Scale;
         public float PlayerSize => 500f * Scale;
+        public float ThoughtsWidth => PlayerSize;
         public float PlayedDiscsOnCircleRadius => MatSize * 0.3f;
         public float OutlineThickness => 4f * Scale;
+        public float SpaceToText => 8f; // no scaling, as text is always the same size
 
         public Sizes(IResolution res)
         {

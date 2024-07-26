@@ -79,6 +79,8 @@ namespace BC7
                 MessageBoxFont = disposables.Use(collector.Use<SpriteFont>(basePath + "MessageBox"));
                 TahomaFont = disposables.Use(collector.Use<SpriteFont>(basePath + "Tahoma"));
                 Tahoma_boldFont = disposables.Use(collector.Use<SpriteFont>(basePath + "Tahoma.bold"));
+                TahomaBigFont = disposables.Use(collector.Use<SpriteFont>(basePath + "TahomaBig"));
+                TahomaBig_boldFont = disposables.Use(collector.Use<SpriteFont>(basePath + "TahomaBig.bold"));
                 TinyFont = disposables.Use(collector.Use<SpriteFont>(basePath + "Tiny"));
             }
             public Ref<T> Use<T>(string assetNameWithoutDirectory)
@@ -88,6 +90,8 @@ namespace BC7
             public Ref<SpriteFont> MessageBoxFont { get; }
             public Ref<SpriteFont> TahomaFont { get; }
             public Ref<SpriteFont> Tahoma_boldFont { get; }
+            public Ref<SpriteFont> TahomaBigFont { get; }
+            public Ref<SpriteFont> TahomaBig_boldFont { get; }
             public Ref<SpriteFont> TinyFont { get; }
         }
         public class _Sounds

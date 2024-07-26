@@ -44,8 +44,23 @@ $endif
 /processor:BytingFontProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/processorParam:Thickness=6
+/processorParam:Thickness=3
 /build:Fonts/Tahoma.bold.spritefont;Fonts/Tahoma.bold.spritefont
+
+#begin Fonts/TahomaBig.bold.spritefont
+# default font
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/TahomaBig.bold.spritefont;Fonts/TahomaBig.spritefont
+# bold font
+/importer:FontDescriptionImporter
+/processor:BytingFontProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/processorParam:Thickness=6
+/build:Fonts/TahomaBig.bold.spritefont;Fonts/TahomaBig.bold.spritefont
 
 #begin Fonts/Tiny.xnb
 #/c#type:SpriteFont

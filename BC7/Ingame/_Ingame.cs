@@ -57,9 +57,10 @@ namespace BC7
 
             var texs = Content.Textures;
             SkullGame game = new SkullGame(brains, windowManager, 
-                new(texs.Mat_0Tex, texs.Mat_1Tex, texs.FlowerTex, texs.SkullTex, texs.BackTex, Content.Fonts.TahomaFont, shaders.HueShift));
+                new(texs.Mat_0Tex, texs.Mat_1Tex, texs.FlowerTex, texs.SkullTex, texs.BackTex,
+                Content.Fonts.TahomaFont, Content.Fonts.Tahoma_boldFont, Content.Fonts.TahomaBigFont, Content.Fonts.TahomaBig_boldFont, shaders.HueShift));
 
-            SkullGameContainer gameContainer = new(game, input.Keys, windowManager, Content.Fonts.TahomaFont);
+            SkullGameContainer gameContainer = new(game, input.Keys, windowManager, Content.Fonts.TahomaBigFont);
 
             Scene scene = new SceneIngame(shaders.HueShift);
             scene.Add(gameContainer);
