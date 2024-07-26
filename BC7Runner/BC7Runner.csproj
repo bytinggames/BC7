@@ -22,13 +22,10 @@
   <ItemGroup>
     <Compile Remove="Content/**" />
     <Compile Remove="Linux/**" />
-    <Compile Remove="Round1\**" />
     <EmbeddedResource Remove="Content/**" />
     <EmbeddedResource Remove="Linux/**" />
-    <EmbeddedResource Remove="Round1\**" />
     <None Remove="Content/**" />
     <None Remove="Linux/**" />
-    <None Remove="Round1\**" />
     <None Remove="app.manifest" />
   </ItemGroup>
 
