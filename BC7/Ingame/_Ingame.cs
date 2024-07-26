@@ -82,7 +82,7 @@ namespace BC7
 
         private void MatchFinished()
         {
-            if (graph != null)
+            if (graph != null && match != null)
             {
                 graph.MatchFinished(match.Scores);
 

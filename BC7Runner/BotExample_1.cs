@@ -11,6 +11,21 @@
         {
             // TODO
 
+            // TUTORIAL (kind of)
+            // here's how to get information:
+            // private information only you have access to:
+            // this.DiscsInHand
+            // this.DiscsPlayed
+            // this.DiscsDestroyed
+
+            // public information:
+            // Data... gets data of your own bot
+            // Game... gets data of all bots
+
+            // this.Thoughts let you output some text that will be visible on screen. You can use this for debugging.
+            // Or you could use Debug.WriteLine("test"); to write to the "Output" window in Visual Studio.
+
+
             // example: always return a skull if there are less than 3 bots alive:
             if (Game.GetAliveOpponents(ID).Count < 3)
             {

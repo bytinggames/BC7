@@ -6,7 +6,7 @@ namespace BC7
 {
     public class DiscsStack : DiscsParent
     {
-        internal List<Disc> Discs { get; private set; } = new();
+        internal List<Disc> Discs { get; set; } = new();
 
         internal override int Flowers => Discs.Count(f => f == Disc.Flower);
         internal override int Skulls => Discs.Count(f => f == Disc.Skull);

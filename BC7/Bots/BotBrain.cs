@@ -7,15 +7,15 @@ namespace BC7
 {
     public abstract class BotBrain
     {
-        protected Discs Hand { get; private set; }
-        protected Discs Played { get; private set; }
-        protected Discs Revealed { get; private set; }
-        protected Discs Destroyed { get; private set; }
         protected SkullGame Game { get; private set; }
         protected int ID { get; private set; }
         public Color Color { get; protected set; }
         internal Color ColorWithoutHue => Color.ToHSV().SetSaturation(0f).TimesValue(100f / 77f /* default value of the blue disc color */).ToRGB();
         public string Thoughts { get; protected set; } = "";
+        public BotData Data => Game.GetBotByID(ID).Data;
+        protected DiscsPublic DiscsInHand => new DiscsPublic(Data.DiscsInHand);
+        protected DiscsStackPublic DiscsPlayed => new DiscsStackPublic(Data.DiscsPlayed);
+        protected DiscsPublic DiscsDestroyed => new DiscsPublic(Data.DiscsDestroyed);
 
         internal void InitializeBase(SkullGame game, int id)
         {

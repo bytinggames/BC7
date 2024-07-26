@@ -1,6 +1,7 @@
 ﻿using BC7Runner.Round1;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace BC7Runner
@@ -9,6 +10,7 @@ namespace BC7Runner
     {
         public static void Main()
         {
+            Debug.WriteLine("test");
             // the participants
             List<Type> bots = new List<Type>()
             {

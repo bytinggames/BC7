@@ -2,8 +2,8 @@
 {
     public class Discs : DiscsParent
     {
-        private int flowers;
-        private int skulls;
+        protected int flowers;
+        protected int skulls;
 
         internal override int Flowers => flowers;
         internal override int Skulls => skulls;

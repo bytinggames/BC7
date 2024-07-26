@@ -25,7 +25,7 @@ namespace BC7
 
         // global assets
         private readonly UIAssets uiAssets;
-        private Match match;
+        private Match? match;
 
 
         private void MyExit()
