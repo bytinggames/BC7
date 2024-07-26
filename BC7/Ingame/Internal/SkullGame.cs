@@ -28,12 +28,14 @@ namespace BC7
 
         private Random rand = new();
         private readonly IResolution res;
+        private readonly Sizes sizes;
 
         internal SkullGame(List<BotBrain> brains, IResolution res, BotVisualAssets botVisualAssets)
         {
+            sizes = new(res);
             for (int i = 0; i < brains.Count; i++)
             {
-                Bots.Add(new Bot(brains[i], new BotData(i), new BotVisual(botVisualAssets)));
+                Bots.Add(new Bot(brains[i], new BotData(i), new BotVisual(botVisualAssets, sizes)));
             }
 
             BotsDeadAndAlive = Bots.ToList();
@@ -299,7 +301,12 @@ namespace BC7
                         }
                     }
                 }
-            } while (Bots.All(f => f.Data.Successes < 2));
+            } while (Bots.All(f => f.Data.Successes < 2) && Bots.Count > 1);
+
+            if (Bots.Count == 1)
+            {
+                Bots[0].Data.LastSurvivor = true;
+            }
         }
 
         internal void Draw(SpriteBatch spriteBatch)
@@ -309,10 +316,10 @@ namespace BC7
                 float angle = i * MathHelper.TwoPi / BotsDeadAndAlive.Count;
                 Vector2 pos = new Vector2(MathF.Cos(angle), MathF.Sin(angle));
                 pos = pos * 0.5f + new Vector2(0.5f);
-                pos.X *= res.Resolution.X - BotVisual.Radius * 2f;
-                pos.Y *= res.Resolution.Y - BotVisual.Radius * 2f;
-                pos.X += BotVisual.Radius;
-                pos.Y += BotVisual.Radius;
+                pos.X *= res.Resolution.X - sizes.PlayerSize;
+                pos.Y *= res.Resolution.Y - sizes.PlayerSize;
+                pos.X += sizes.PlayerSize / 2f;
+                pos.Y += sizes.PlayerSize / 2f;
 
                 BotsDeadAndAlive[i].Visual.Draw(spriteBatch, pos, BotsDeadAndAlive[i]);
             }

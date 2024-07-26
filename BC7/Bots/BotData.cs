@@ -11,6 +11,7 @@
         public int LastBidThisRound { get; internal set; } = 0;
         public int ID { get; }
         public bool Alive { get; internal set; } = true;
+        public bool LastSurvivor { get; internal set; }
 
         internal BotData(int id)
         {
