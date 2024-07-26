@@ -12,7 +12,7 @@
             // TODO
 
             // example: always return a skull if there are less than 3 bots alive:
-            if (Game.GetAliveOpponentBots(ID).Count < 3)
+            if (Game.GetAliveOpponents(ID).Count < 3)
             {
                 return Disc.Skull;
             }
@@ -48,8 +48,7 @@
 
         public override Disc OnFail_ChooseOwnDiscToDestroy()
         {
-            Game.BotsAlive[0].Data.DiscsRevealed // TODO: inspect, but not be able to inspect DiscsPlayed
-            // not that important... I think? Not sure, you decide!
+            // not that important... I think? Not sure.. you decide!
 
             return Disc.Flower;
             //         .Skull;

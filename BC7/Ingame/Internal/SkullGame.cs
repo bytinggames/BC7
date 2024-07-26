@@ -6,18 +6,22 @@ namespace BC7
 {
     public class SkullGame
     {
-        public List<Bot> BotsAlive { get; } = new();
+        /// <summary>Only contains bots that are still in the game -> alive.</summary>
+        public List<Bot> Bots { get; } = new();
+        /// <summary>Every bot that was eliminated from the game.</summary>
         public List<Bot> BotsDead { get; } = new();
-        public List<Bot> BotsAll { get; }
+        /// <summary>All bots. This list doesn't change during a game.</summary>
+        public List<Bot> BotsDeadAndAlive { get; }
 
         public Bot GetBotByID(int id)
         {
-            return BotsAll[id];
+            return BotsDeadAndAlive[id];
         }
 
-        public List<Bot> GetAliveOpponentBots(int myID)
+        /// <summary>Returns all alive bots but the one with the given 'myID'.</summary>
+        public List<Bot> GetAliveOpponents(int myID)
         {
-            return BotsAlive.Where(f => f.Data.ID != myID).ToList();
+            return Bots.Where(f => f.Data.ID != myID).ToList();
         }
 
         #region internal
@@ -29,10 +33,10 @@ namespace BC7
         {
             for (int i = 0; i < brains.Count; i++)
             {
-                BotsAlive.Add(new Bot(brains[i], new BotData(i), new BotVisual(botVisualAssets)));
+                Bots.Add(new Bot(brains[i], new BotData(i), new BotVisual(botVisualAssets)));
             }
 
-            BotsAll = BotsAlive.ToList();
+            BotsDeadAndAlive = Bots.ToList();
 
             for (int i = 0; i < brains.Count; i++)
             {
@@ -44,11 +48,11 @@ namespace BC7
 
         internal IEnumerable<LoopAction> GameLoop()
         {
-            int turnIndex = rand.Next(BotsAlive.Count);
+            int turnIndex = rand.Next(Bots.Count);
             do
             {
                 // step 1 - turn preparation
-                foreach (Bot bot in BotsAlive)
+                foreach (Bot bot in Bots)
                 {
                     if (bot.Brain is Human)
                     {
@@ -75,8 +79,8 @@ namespace BC7
                 {
                     yield return LoopAction.WaitForEnter; // before player taking step 2A
 
-                    heighestPossibleBet = BotsAlive.Sum(f => f.Data.DiscsPlayed.Count());
-                    var bot = BotsAlive[turnIndex];
+                    heighestPossibleBet = Bots.Sum(f => f.Data.DiscsPlayed.Count());
+                    var bot = Bots[turnIndex];
 
                     DiscOrBet? discOrChallenge = null;
                     while (true)
@@ -107,27 +111,27 @@ namespace BC7
                     }
 
                     // next player
-                    turnIndex = (turnIndex + 1) % BotsAlive.Count;
+                    turnIndex = (turnIndex + 1) % Bots.Count;
                 }
 
                 // next player
-                turnIndex = (turnIndex + 1) % BotsAlive.Count;
+                turnIndex = (turnIndex + 1) % Bots.Count;
 
                 // step 2.5 - increase the bid or pass
                 // loop until only all players but one have passed
                 bool heighestPossibleBetIncreasedBy1 = false;
-                if (bet == BotsAlive.Sum(f => f.Data.DiscsPlayed.Count()))
+                if (bet == Bots.Sum(f => f.Data.DiscsPlayed.Count()))
                 {
                     // unlock the last bet
                     // allow for one last bet, even though the heighest possible bet has already been done
                     heighestPossibleBet++;
                     heighestPossibleBetIncreasedBy1 = true;
                 }
-                while (BotsAlive.Count(f => f.Data.Passed) != BotsAlive.Count - 1)
+                while (Bots.Count(f => f.Data.Passed) != Bots.Count - 1)
                 {
                     yield return LoopAction.WaitForEnter; // before player taking step 2B
 
-                    var bot = BotsAlive[turnIndex];
+                    var bot = Bots[turnIndex];
 
                     IncreaseOrPass? increaseOrPass = null;
                     while (true)
@@ -164,13 +168,13 @@ namespace BC7
                     }
 
                     // next player
-                    turnIndex = (turnIndex + 1) % BotsAlive.Count;
+                    turnIndex = (turnIndex + 1) % Bots.Count;
                 }
 
                 // step 3 - the attempt
                 Bot? failedOnPlayer = null;
-                while (BotsAlive.Sum(f => f.Data.DiscsRevealed.Count()) < bet // you have still discs to flip around
-                    && BotsAlive.Any(f => f.Data.DiscsPlayed.Count() > 0)) // there are still concealed discs available to flip
+                while (Bots.Sum(f => f.Data.DiscsRevealed.Count()) < bet // you have still discs to flip around
+                    && Bots.Any(f => f.Data.DiscsPlayed.Count() > 0)) // there are still concealed discs available to flip
                 {
                     yield return LoopAction.WaitForEnter; // before revealing a disc
                     BotData playerDataToRevealFrom;
@@ -182,7 +186,7 @@ namespace BC7
                     else
                     {
                         // then let him choose which discs to reveal next
-                        List<int> optionsList = BotsAlive.Where(f => f.Data.DiscsPlayed.Count() > 0).Select(f => f.Data.ID).ToList();
+                        List<int> optionsList = Bots.Where(f => f.Data.DiscsPlayed.Count() > 0).Select(f => f.Data.ID).ToList();
                         optionsList.Shuffle(rand);
                         int[] options = optionsList.ToArray();
 
@@ -208,12 +212,12 @@ namespace BC7
                         {
                             playerIDToRevealFrom = options[0]; // automatically choose the only option available
                         }
-                        playerDataToRevealFrom = BotsAlive[playerIDToRevealFrom].Data;
+                        playerDataToRevealFrom = Bots[playerIDToRevealFrom].Data;
                     }
                     Disc revealed = playerDataToRevealFrom.DiscsPlayed.MoveTopTo(playerDataToRevealFrom.DiscsRevealed);
                     if (revealed == Disc.Skull)
                     {
-                        failedOnPlayer = BotsAll[playerDataToRevealFrom.ID];
+                        failedOnPlayer = BotsDeadAndAlive[playerDataToRevealFrom.ID];
                         break;
                     }
                 }
@@ -221,7 +225,7 @@ namespace BC7
                 yield return LoopAction.WaitForEnter; // after the last disc is revealed
 
                 // prepare all bots for next round
-                foreach (Bot bot in BotsAlive)
+                foreach (Bot bot in Bots)
                 {
                     // reset bots Passed variable
                     bot.Data.Passed = false;
@@ -239,7 +243,7 @@ namespace BC7
                 }
 
                 // challenger starts next turn per default
-                turnIndex = BotsAlive.IndexOf(challenger);
+                turnIndex = Bots.IndexOf(challenger);
 
                 // punish or reward the challenger
                 if (failedOnPlayer == null)
@@ -255,18 +259,18 @@ namespace BC7
                         // player loses and gets removed from the Game
                         challenger.Data.DiscsInHand.TryMoveDiscTo(Disc.Flower /* any */, challenger.Data.DiscsDestroyed);
                         challenger.Data.Alive = false;
-                        BotsAlive.Remove(challenger);
+                        Bots.Remove(challenger);
                         BotsDead.Add(challenger);
 
                         // if the challenger is removed from the Game, then the next players turn is the one whose disc the challenger died from
                         // if that disc was his own, the dying player chooses who's next (in our case we determine that randomly)
                         if (failedOnPlayer == challenger)
                         {
-                            turnIndex = rand.Next(BotsAlive.Count);
+                            turnIndex = rand.Next(Bots.Count);
                         }
                         else
                         {
-                            turnIndex = BotsAlive.IndexOf(failedOnPlayer);
+                            turnIndex = Bots.IndexOf(failedOnPlayer);
                         }
                     }
                     else
@@ -295,14 +299,14 @@ namespace BC7
                         }
                     }
                 }
-            } while (BotsAlive.All(f => f.Data.Successes < 2));
+            } while (Bots.All(f => f.Data.Successes < 2));
         }
 
         internal void Draw(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < BotsAll.Count; i++)
+            for (int i = 0; i < BotsDeadAndAlive.Count; i++)
             {
-                float angle = i * MathHelper.TwoPi / BotsAll.Count;
+                float angle = i * MathHelper.TwoPi / BotsDeadAndAlive.Count;
                 Vector2 pos = new Vector2(MathF.Cos(angle), MathF.Sin(angle));
                 pos = pos * 0.5f + new Vector2(0.5f);
                 pos.X *= res.Resolution.X - BotVisual.Radius * 2f;
@@ -310,7 +314,7 @@ namespace BC7
                 pos.X += BotVisual.Radius;
                 pos.Y += BotVisual.Radius;
 
-                BotsAll[i].Visual.Draw(spriteBatch, pos, BotsAll[i]);
+                BotsDeadAndAlive[i].Visual.Draw(spriteBatch, pos, BotsDeadAndAlive[i]);
             }
         }
 

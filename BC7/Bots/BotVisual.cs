@@ -57,6 +57,11 @@ namespace BC7
             {
                 assets.Font.Value.Draw(spriteBatch, bot.Data.LastBidThisRound.ToString(), Anchor.Left(matRect.RightV), Colors.Text);
             }
+
+            if (bot.Data.Successes >= 2)
+            {
+                assets.Font.Value.Draw(spriteBatch, "WINNER", Anchor.Right(matRect.LeftV), Colors.Text);
+            }
         }
     }
 }

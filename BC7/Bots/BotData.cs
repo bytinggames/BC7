@@ -5,7 +5,7 @@
         public int Successes { get; internal set; } = 0;
         public Discs DiscsInHand { get; } = new(3, 1);
         public DiscsStack DiscsPlayed { get; } = new();
-        public DiscsStack DiscsRevealed { get; } = new();
+        public DiscsStackPublic DiscsRevealed { get; } = new();
         public Discs DiscsDestroyed { get; } = new();
         public bool Passed { get; internal set; } = false;
         public int LastBidThisRound { get; internal set; } = 0;
