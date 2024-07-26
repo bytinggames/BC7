@@ -6,8 +6,6 @@ namespace BC7
 {
     public partial class GlobalGame
     {
-        private PublicGame publicGame;
-
         private Scene CreateIngame()
         {
             Type[] botTypes;
