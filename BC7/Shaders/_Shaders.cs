@@ -7,15 +7,15 @@ namespace BC7
         private Shaders CreateShaders(ContentLoader load)
         {
             return new Shaders(
-                CreateShaderHueShift(load)
+                //CreateShaderHueShift(load)
             );
         }
 
-        private static ShaderHueShift CreateShaderHueShift(ContentLoader load)
-        {
-            return new ShaderHueShift(load.Effects.D2.HueShiftFx,
-                0f
-            );
-        }
+        //private static ShaderHueShift CreateShaderHueShift(ContentLoader load)
+        //{
+        //    return new ShaderHueShift(load.Effects.D2.HueShiftFx,
+        //        0f
+        //    );
+        //}
     }
 }

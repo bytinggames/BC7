@@ -1,13 +1,13 @@
 ﻿namespace BC7
 {
-    internal class SceneIngame(ShaderHueShift shaderHueShift) : Scene
+    internal class SceneIngame(/*ShaderHueShift shaderHueShift*/) : Scene
     {
-        private readonly ShaderHueShift shaderHueShift = shaderHueShift;
+        //private readonly ShaderHueShift shaderHueShift = shaderHueShift;
 
         protected override void Begin(SpriteBatch spriteBatch)
         {
-            shaderHueShift.ApplyParameters();
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp, effect: shaderHueShift.Effect.Value, sortMode: SpriteSortMode.Immediate);
+            //shaderHueShift.ApplyParameters();
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp/*, effect: shaderHueShift.Effect.Value*/, sortMode: SpriteSortMode.Immediate);
         }
     }
 }

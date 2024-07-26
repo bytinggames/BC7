@@ -11,8 +11,8 @@ namespace BC7
         Ref<SpriteFont> Font,
         Ref<SpriteFont> FontBold,
         Ref<SpriteFont> FontBig,
-        Ref<SpriteFont> FontBigBold,
-        ShaderHueShift ShaderHueShift);
+        Ref<SpriteFont> FontBigBold/*,
+        ShaderHueShift ShaderHueShift*/);
 
     internal class BotVisual
     {
@@ -36,10 +36,10 @@ namespace BC7
 
 
             float hueShift = ((bot.Brain.Color.ToHSV().hue + 360f - 194f /* default hue of discs */) / 360f) % 1f;
-            using (assets.ShaderHueShift.HueShift.Use(hueShift))
+            //using (assets.ShaderHueShift.HueShift.Use(hueShift))
             {
-                assets.ShaderHueShift.HueShift.Apply();
-                assets.ShaderHueShift.ApplyParameters();
+                //assets.ShaderHueShift.HueShift.Apply();
+                //assets.ShaderHueShift.ApplyParameters();
                 Color color = bot.Brain.ColorWithoutHue;
 
                 var texMat = data.Successes == 0 ? assets.TexMat0 : assets.TexMat1;
