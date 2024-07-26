@@ -1,7 +1,6 @@
 # clone BytingLib
-cd ../../..
-git clone -b develop git@github.com:bytinggames/BytingLib.git
-cd -
+git submodule init
+git submodule update
 
 # install wine
 sudo apt install wine64 p7zip-full
@@ -9,12 +8,9 @@ sudo apt install wine64 p7zip-full
 # setup wine for MonoGame (gets win dotnet and d3dcompiler for fx compilation)
 wget -qO- https://raw.githubusercontent.com/bytinggames/MonoGame/byting-lib/Tools/MonoGame.Effect.Compiler/mgfxc_wine_setup.sh | bash
 
-# install .net 6 sdk
-wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb        
-sudo apt update
-sudo apt install apt-transport-https
-sudo apt install dotnet-sdk-6.0
+# install .net 8 sdk
+sudo apt-get update && \
+  sudo apt-get install -y dotnet-sdk-8.0
 
 # install t4
 install t4 for executing *.tt files:
