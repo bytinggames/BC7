@@ -1,6 +1,6 @@
 ﻿namespace BC7
 {
-    public interface IHumanInput
+    internal interface IHumanInput
     {
         public bool GetKick();
     }

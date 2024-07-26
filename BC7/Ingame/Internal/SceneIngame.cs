@@ -1,6 +1,6 @@
 ﻿namespace BC7
 {
-    class SceneIngame(ShaderHueShift shaderHueShift) : Scene
+    internal class SceneIngame(ShaderHueShift shaderHueShift) : Scene
     {
         private readonly ShaderHueShift shaderHueShift = shaderHueShift;
 

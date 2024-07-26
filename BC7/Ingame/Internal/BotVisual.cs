@@ -2,7 +2,7 @@
 
 namespace BC7
 {
-    public record BotVisualAssets(
+    internal record BotVisualAssets(
         Ref<Texture2D> TexMat0,
         Ref<Texture2D> TexMat1, 
         Ref<Texture2D> TexFlower,

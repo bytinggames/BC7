@@ -6,7 +6,7 @@
         Flower = -1
     }
 
-    internal static class DiscExtension
+    public static class DiscExtension
     {
         public static Disc GetInverse(this Disc disc)
         {
