@@ -30,5 +30,9 @@
         {
             return Disc.Flower;
         }
+
+        public override void OnRoundEnd()
+        {
+        }
     }
 }

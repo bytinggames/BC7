@@ -68,5 +68,9 @@
             return Disc.Flower;
             //         .Skull;
         }
+
+        public override void OnRoundEnd()
+        {
+        }
     }
 }
