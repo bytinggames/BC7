@@ -224,6 +224,12 @@ namespace BC7
                     }
                 }
 
+                foreach (Bot bot in Bots)
+                {
+                    bot.Brain.OnRoundEnd();
+                }
+
+
                 yield return LoopAction.WaitForEnter; // after the last disc is revealed
 
                 // prepare all bots for next round

@@ -48,6 +48,9 @@ namespace BC7
         /// Return the ID of the chosen player. This is only executed, if you have a choice.
         /// </summary>
         public abstract int Step3_ChoosePlayerToFlip1Disc(int[] playerIDsToChooseFrom);
+
+        public abstract void OnRoundEnd();
+
         /// <summary>When you fail because you flipped your own skull, you have the advantage of choosing what disc to destroy.</summary>
         public abstract Disc OnFail_ChooseOwnDiscToDestroy();
     }
