@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define CATCH
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -63,7 +65,18 @@ namespace BC7
                     Disc disc;
                     while (true)
                     {
-                        disc = bot.Brain.Step1_FirstDisc();
+#if CATCH
+                        try
+                        {
+#endif
+                            disc = bot.Brain.Step1_FirstDisc();
+#if CATCH
+                        }
+                        catch
+                        {
+                            disc = Disc.Skull;
+                        }
+#endif
                         if ((int)disc != int.MinValue)
                         {
                             break;
@@ -87,7 +100,18 @@ namespace BC7
                     DiscOrBet? discOrChallenge = null;
                     while (true)
                     {
-                        discOrChallenge = bot.Brain.Step2A_DiscOrBet();
+#if CATCH
+                            try
+                            {
+#endif
+                                discOrChallenge = bot.Brain.Step2A_DiscOrBet();
+#if CATCH
+                            }
+                            catch
+                            {
+                                discOrChallenge = DiscOrBet.Bet(1);
+                            }
+#endif
                         if (discOrChallenge != null)
                         {
                             break;
@@ -138,7 +162,18 @@ namespace BC7
                     IncreaseOrPass? increaseOrPass = null;
                     while (true)
                     {
-                        increaseOrPass = bot.Brain.Step2B_IncreaseOrPass(bet);
+#if CATCH
+                        try
+                        {
+#endif
+                            increaseOrPass = bot.Brain.Step2B_IncreaseOrPass(bet);
+#if CATCH
+                        }
+                        catch
+                        {
+                            increaseOrPass = IncreaseOrPass.Pass();
+                        }
+#endif
                         if (increaseOrPass != null)
                         {
                             break;
@@ -197,7 +232,18 @@ namespace BC7
                         {
                             while (true)
                             {
-                                playerIDToRevealFrom = challenger.Brain.Step3_ChoosePlayerToFlip1Disc(options);
+#if CATCH
+                                try
+                                {
+#endif
+                                    playerIDToRevealFrom = challenger.Brain.Step3_ChoosePlayerToFlip1Disc(options);
+#if CATCH
+                                }
+                                catch
+                                {
+                                    playerIDToRevealFrom = options[0];
+                                }
+#endif
                                 if (playerIDToRevealFrom != int.MinValue)
                                 {
                                     break;
@@ -214,7 +260,7 @@ namespace BC7
                         {
                             playerIDToRevealFrom = options[0]; // automatically choose the only option available
                         }
-                        playerDataToRevealFrom = Bots[playerIDToRevealFrom].Data;
+                        playerDataToRevealFrom = GetBotByID(playerIDToRevealFrom).Data;
                     }
                     Disc revealed = playerDataToRevealFrom.DiscsPlayed.MoveTopTo(playerDataToRevealFrom.DiscsRevealed);
                     if (revealed == Disc.Skull)
@@ -226,7 +272,18 @@ namespace BC7
 
                 foreach (Bot bot in Bots)
                 {
-                    bot.Brain.OnRoundEnd();
+#if CATCH
+                    try
+                    {
+#endif
+                        bot.Brain.OnRoundEnd();
+#if CATCH
+                    }
+                    catch
+                    {
+
+                    }
+#endif
                 }
 
 
@@ -331,6 +388,6 @@ namespace BC7
             }
         }
 
-        #endregion
+#endregion
     }
 }
