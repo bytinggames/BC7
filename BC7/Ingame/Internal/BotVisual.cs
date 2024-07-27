@@ -77,8 +77,8 @@ namespace BC7
 
                 // name
                 Anchor anchor = Anchor.Bottom(matRect.TopV + new Vector2(0f, -sizes.SpaceToText));
-                assets.FontBold.Value.Draw(spriteBatch, bot.Brain.GetType().Name, anchor, Colors.TextOuter);
-                assets.Font.Value.Draw(spriteBatch, bot.Brain.GetType().Name, anchor, Colors.TextInner);
+                assets.FontBold.Value.Draw(spriteBatch, bot.Data.ID + " - " + bot.Brain.GetType().Name, anchor, Colors.TextOuter);
+                assets.Font.Value.Draw(spriteBatch, bot.Data.ID + " - " + bot.Brain.GetType().Name, anchor, Colors.TextInner);
 
                 if (bot.Data.LastBidThisRound != 0)
                 {

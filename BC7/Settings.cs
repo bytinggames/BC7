@@ -2,17 +2,14 @@
 {
     public class Settings
     {
-        public int? StartupScene { get; set; } = 1;
         public int? MSAA { get; set; } = 4;
         public bool Fullscreen { get; set; } = false;
         public bool ShuffleBots { get; set; } = true;
-        public bool TakeGraphScreenshots { get; set; } = false;
-        public bool FadeIn { get; set; } = false;
-        public bool FadeOut { get; set; } = false;
         public bool KeyShortcuts { get; set; } = true;
-        public bool CatchExceptions { get; set; } = false;
         public bool VisibleGame { get; set; } = true;
-        public bool CustomDraw { get; set; } = true;
+        /// <summary>Currently not working.</summary>
         public int? Seed { get; set; } = null;
+
+        public bool WaitForEnterToContinueGame { get; set; } = true;
     }
 }

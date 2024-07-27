@@ -53,7 +53,10 @@ namespace BC7
                 {
                     if (gameEnumerator.Current == LoopAction.WaitForEnter)
                     {
-                        waitForEnterInput = true;
+                        if (MySettings.WaitForEnterToContinueGame)
+                        {
+                            waitForEnterInput = true;
+                        }
                     }
                 }
                 else
