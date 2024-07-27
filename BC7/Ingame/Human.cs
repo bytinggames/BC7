@@ -140,5 +140,10 @@ namespace BC7
             Thoughts = "Destroy [f]lower or [s]kull?";
             return (Disc)int.MinValue;
         }
+
+        public override void OnRoundEnd()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
