@@ -143,7 +143,6 @@ namespace BC7
 
         public override void OnRoundEnd()
         {
-            throw new NotImplementedException();
         }
     }
 }
