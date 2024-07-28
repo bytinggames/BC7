@@ -7,7 +7,7 @@
             string? name;
             do
             {
-                Console.WriteLine("Bot name to upload (Round1/BotExample_1 f.ex.) .zip, .7z, .gz are also possible:");
+                Console.WriteLine("Bot name to upload (Example_1 f.ex.) .zip, .7z, .gz are also possible:");
 
                 name = Console.ReadLine();
                 if (name == null)

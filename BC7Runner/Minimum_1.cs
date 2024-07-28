@@ -1,6 +1,6 @@
 ﻿namespace BC7Runner.Round1
 {
-    internal class BotMinimum_1 : BotBrain
+    internal class Minimum_1 : BotBrain
     {
         protected override void Initialize()
         {
