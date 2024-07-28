@@ -12,6 +12,7 @@
         public int ID { get; }
         public bool Alive { get; internal set; } = true;
         public bool LastSurvivor { get; internal set; }
+        public int Lives => DiscsInHand.Count() + DiscsPlayed.Count() + DiscsRevealed.Count();
 
         internal BotData(int id)
         {

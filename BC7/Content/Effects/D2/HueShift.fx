@@ -41,13 +41,10 @@ float3 adjust_hue(float3 HSV, float offset)
 float4 PS(in VertexOut input) : COLOR0
 {
 	float4 color = tex2D(Sampler, input.TexCoord) * input.Color;
-	if (color.a < 0.5)
-	{
-		return float4(0,0,0,0);
-	}
 	float3 hsv = rgb2hsv(color.rgb);
 	hsv = adjust_hue(hsv, HueShift);
 	color.rgb = hsv2rgb(hsv);
+	color.rgb *= color.a; // this should fix the rendering error on Tobis PC?
 	return color;
 }
 

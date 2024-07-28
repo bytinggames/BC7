@@ -9,7 +9,21 @@
         public bool VisibleGame { get; set; } = true;
         /// <summary>Currently not working.</summary>
         public int? Seed { get; set; } = null;
+        public bool SilentExceptions { get; set; } = false;
 
-        public bool WaitForEnterToContinueGame { get; set; } = true;
+        public bool WaitForEnterToContinueGame { get; set; } = false;
+
+
+        public bool SetRealGame
+        {
+            get => false;
+            set
+            {
+                if (value)
+                {
+                    SilentExceptions = true;
+                }
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@
 
             // TUTORIAL (kind of)
             // here's how to get information:
+
             // private information only you have access to:
             // this.DiscsInHand
             // this.DiscsPlayed
@@ -63,7 +64,7 @@
 
         public override Disc OnFail_ChooseOwnDiscToDestroy()
         {
-            // not that important... I think? Not sure.. you decide!
+            // TODO
 
             return Disc.Flower;
             //         .Skull;
@@ -71,6 +72,7 @@
 
         public override void OnRoundEnd()
         {
+            // you can check here what happened this round. F.ex. What cards were revealed by whom and Who betted what.
         }
     }
 }

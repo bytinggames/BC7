@@ -65,7 +65,7 @@ namespace BC7
                     {
                         tex.Value.Draw(spriteBatch,
                             Anchor.Center(pos + new Vector2(MathF.Cos(angle), MathF.Sin(angle)) * sizes.PlayedDiscsOnCircleRadius + outlineOffset),
-                            color, null, new Vector2(discDiameter), rotation);
+                            color * (data.Passed ? 0.5f : 1f), null, new Vector2(discDiameter), rotation);
                     });
                 }
 
@@ -77,8 +77,8 @@ namespace BC7
 
                 // name
                 Anchor anchor = Anchor.Bottom(matRect.TopV + new Vector2(0f, -sizes.SpaceToText));
-                assets.FontBold.Value.Draw(spriteBatch, bot.Data.ID + " - " + bot.Brain.GetType().Name, anchor, Colors.TextOuter);
-                assets.Font.Value.Draw(spriteBatch, bot.Data.ID + " - " + bot.Brain.GetType().Name, anchor, Colors.TextInner);
+                assets.FontBold.Value.Draw(spriteBatch, bot.Data.ID + " - " + bot.Brain.GetType().Name + " - " + new string('O', bot.Data.Lives), anchor, Colors.TextOuter);
+                assets.Font.Value.Draw(spriteBatch, bot.Data.ID + " - " + bot.Brain.GetType().Name + " - " + new string('O', bot.Data.Lives), anchor, Colors.TextInner);
 
                 if (bot.Data.LastBidThisRound != 0)
                 {
@@ -112,7 +112,7 @@ namespace BC7
         private readonly IResolution res;
         public float Scale => Math.Min(res.Resolution.X, res.Resolution.Y) / 1080f;
 
-        public float MatSize => 250f * Scale;
+        public float MatSize => 200f * Scale;
         public float PlayerSize => 500f * Scale;
         public float ThoughtsWidth => PlayerSize;
         public float PlayedDiscsOnCircleRadius => MatSize * 0.3f;
