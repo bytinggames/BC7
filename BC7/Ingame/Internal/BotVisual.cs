@@ -97,7 +97,7 @@ namespace BC7
                 assets.FontBig.Value.Draw(spriteBatch, bot.Data.LastBidThisRound.ToString(), anchor, Colors.TextInner * (highestBid ? 1f : 0.5f));
             }
 
-            if (bot.Data.Successes >= 2 || bot.Data.LastSurvivor)
+            if (bot.Data.IsWinner())
             {
                 assets.FontBigBold.Value.Draw(spriteBatch, "WINNER", matRect.GetCenterAnchor(), Colors.TextOuter);
                 assets.FontBig.Value.Draw(spriteBatch, "WINNER", matRect.GetCenterAnchor(), Colors.TextInner);

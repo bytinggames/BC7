@@ -12,7 +12,7 @@ namespace BC7
             Paths paths = new Paths(contentPath);
             SettingsManager<Settings> settingsManager = new SettingsManager<Settings>(paths);
 
-            if (settingsManager.Settings.ShuffleBots)
+            if (settingsManager.Settings.ShuffleBotsOnce)
                 bots.Shuffle(new Random());
 
 #if RELEASE
@@ -21,7 +21,7 @@ CrashLogger.TryRun(paths.CrashLogFile, "Fonts/MessageBox", () =>
 #endif
             GlobalGame? globalGame = null;
             using var game = new GameWrapper(g => globalGame = new GlobalGame(g, paths, settingsManager, bots.ToArray()), settingsManager.Settings.MSAA);
-            if (settingsManager.Settings.VisibleGame)
+            if (settingsManager.Settings.GameSpeed < 2)
                 game.Run();
             else
             {

@@ -21,11 +21,10 @@ namespace BC7
         public Color ClearColor { get; private set; } = Colors.Background;
 
         private readonly Participant[] participants;
-        private readonly Graph? graph;
+        private int gameIndex = 0;
 
         // global assets
         private readonly UIAssets uiAssets;
-        private Match? match;
 
 
         private void MyExit()
@@ -57,7 +56,7 @@ namespace BC7
             //}
             stuff = new StuffDisposable(typeof(IUpdate), typeof(IDrawBatch));
 
-            Func<Scene> StartScene = graph != null ? CreateGraphScene : CreateIngame;
+            Func<Scene> StartScene = CreateIngameScene;
 
             if (settings.KeyShortcuts)
                 stuff.Add(new UpdateTrigger(() => input.Keys.Escape.Pressed, Exit));
@@ -77,8 +76,8 @@ namespace BC7
         {
             return id switch
             {
-                1 => CreateGraphScene,
-                MaxSceneID => CreateIngame,
+                //1 => CreateGraphScene,
+                MaxSceneID => CreateIngameScene,
                 _ => CreateMenue
             };
         }

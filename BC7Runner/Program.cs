@@ -11,7 +11,7 @@ namespace BC7Runner
             // the participants
             List<Type> bots = new List<Type>()
             {
-                typeof(Human),
+                typeof(Example_1),
                 typeof(Example_1),
             };
 

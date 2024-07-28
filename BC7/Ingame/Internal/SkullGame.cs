@@ -29,9 +29,10 @@ namespace BC7
 
         private Random rand = new();
         private readonly IResolution res;
+        private readonly int gameIndex;
         private readonly Sizes sizes;
 
-        internal SkullGame(List<BotBrain> brains, IResolution res, BotVisualAssets botVisualAssets)
+        internal SkullGame(List<BotBrain> brains, IResolution res, int gameIndex, BotVisualAssets botVisualAssets)
         {
             sizes = new(res);
             for (int i = 0; i < brains.Count; i++)
@@ -47,11 +48,12 @@ namespace BC7
             }
 
             this.res = res;
+            this.gameIndex = gameIndex;
         }
 
         internal IEnumerable<LoopAction> GameLoop()
         {
-            int turnIndex = 0;
+            int turnIndex = gameIndex % BotsDeadAndAlive.Count;
             do
             {
                 // step 1 - turn preparation

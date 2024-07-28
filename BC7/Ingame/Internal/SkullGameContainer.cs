@@ -10,8 +10,9 @@ namespace BC7
         private readonly IResolution resolution;
         private readonly Ref<SpriteFont> font;
         private readonly IEnumerator<LoopAction> gameEnumerator;
-        public Action? OnEnd;
         public bool Ended { get; private set; }
+        public event Action<int?>? OnMatchFinished;
+
         private bool waitForEnterInput;
 
         public SkullGameContainer(SkullGame game, KeyInput keys, IResolution resolution, Ref<SpriteFont> font)
@@ -35,11 +36,6 @@ namespace BC7
 
         public void Update()
         {
-            if (Ended)
-            {
-                return;
-            }
-
             if (waitForEnterInput)
             {
                 if (keys.Space.Pressed || keys.Enter.Pressed)
@@ -49,20 +45,35 @@ namespace BC7
             }
             else
             {
-                if (gameEnumerator.MoveNext())
+                if (Ended)
                 {
-                    if (gameEnumerator.Current == LoopAction.WaitForEnter)
+                    if (OnMatchFinished != null)
                     {
-                        if (MySettings.WaitForEnterToContinueGame)
-                        {
-                            waitForEnterInput = true;
-                        }
+                        var winner = game.BotsAlive.Find(f => f.Data.IsWinner());
+                        OnMatchFinished?.Invoke(winner?.Data.ID);
+                        OnMatchFinished = null;
                     }
                 }
                 else
                 {
-                    Ended = true;
-                    OnEnd?.Invoke();
+                    if (gameEnumerator.MoveNext())
+                    {
+                        if (gameEnumerator.Current == LoopAction.WaitForEnter)
+                        {
+                            if (MySettings.GameSpeed == 0)
+                            {
+                                waitForEnterInput = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Ended = true;
+                        if (MySettings.GameSpeed <= 1)
+                        {
+                            waitForEnterInput = true;
+                        }
+                    }
                 }
             }
         }

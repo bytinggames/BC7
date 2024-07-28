@@ -18,5 +18,10 @@
         {
             ID = id;
         }
+
+        internal bool IsWinner()
+        {
+            return Successes >= 2 || LastSurvivor;
+        }
     }
 }

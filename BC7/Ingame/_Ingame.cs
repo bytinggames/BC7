@@ -1,53 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace BC7
 {
     public partial class GlobalGame
     {
-        private Scene CreateIngame()
+        private Scene CreateIngameScene()
         {
-            Type[] botTypes;
-
-            if (graph != null)
-            {
-
-                if (graph.IsDone())
-                    throw new Exception("tournament is done");
-
-                int[]? matchParticipants = graph.GetParticipantsForNextMatch();
-                if (matchParticipants == null)
-                    throw new Exception("something went wrong");
-
-                botTypes = matchParticipants.Select(f => participants[f].BotType).ToArray();
-            }
-            else
-            {
-                botTypes = participants.Select(f => f.BotType).ToArray();
-            }
-            match = new Match(botTypes);
-
-            //List<PublicBot> publicBots = new List<PublicBot>();
-            //for (int i = 0; i < botTypes.Length; i++)
-            //{
-            //    publicBots.Add(new PublicBot(i, 
-            //}
-            //publicGame = new PublicGame(botTypes.Length);
-            //publicGame.UpdateState();
-            //new(), new(), new());
-
             List<BotBrain> brains = new();
-            for (int i = 0; i < botTypes.Length; i++)
+            for (int i = 0; i < participants.Length; i++)
             {
                 object? instance;
-                if (botTypes[i] == typeof(Human))
+                if (participants[i].BotType == typeof(Human))
                 {
                     instance = new Human(input.Keys);
                 }
                 else
                 {
-                    instance = Activator.CreateInstance(botTypes[i]);
+                    instance = Activator.CreateInstance(participants[i].BotType);
                 }
                 if (instance is BotBrain bot)
                 {
@@ -56,7 +28,7 @@ namespace BC7
             }
 
             var texs = Content.Textures;
-            SkullGame game = new SkullGame(brains, windowManager, 
+            SkullGame game = new SkullGame(brains, windowManager, gameIndex,
                 new(texs.Mat_0Tex, texs.Mat_1Tex, texs.FlowerTex, texs.SkullTex, texs.BackTex,
                 Content.Fonts.TahomaFont, Content.Fonts.Tahoma_boldFont, Content.Fonts.TahomaBigFont, Content.Fonts.TahomaBig_boldFont, shaders.HueShift));
 
@@ -65,31 +37,26 @@ namespace BC7
             Scene scene = new SceneIngame(shaders.HueShift);
             scene.Add(gameContainer);
 
-            //Map scene = new Map(game, input.Mouse, input.Keys, levelData.Entities, levelData.Street, updateSpeed, drawSpeed, match, settingsManager);
-            //game.Map = scene;
-            //for (int i = 0; i < game.BotsAlive.Count; i++)
-            //{
-            //    game.BotsAlive[i].OnMapLoaded(game, i, settingsManager);
-            //}
-
-
-            //scene.OnMatchFinished = MatchFinished;
-
-            //if (settings.KeyShortcuts)
-            //    scene.Add(new UpdateTrigger(() => input.Keys.Enter.Pressed, scene.ForceMatchEnd));
+            gameContainer.OnMatchFinished += MatchFinished;
 
             return scene;
         }
 
-        private void MatchFinished()
+        private void MatchFinished(int? winnerID)
         {
-            if (graph != null && match != null)
+            if (winnerID.HasValue)
             {
-                graph.MatchFinished(match.Scores);
-
-                ChangeScene(CreateGraphScene);
+                participants[winnerID.Value].Score++;
             }
-            else
+
+            Debug.WriteLine("scores:\n" + string.Join('\n', participants.Select(f => f.Score.ToString().PadLeft(3) + " " + f.BotType.Name)) + "\n");
+
+            if (gameIndex + 1 < settings.AmountOfGames)
+            {
+                gameIndex++;
+                ChangeScene(CreateIngameScene);
+            }
+            else if (settings.GameSpeed == 2)
             {
                 MyExit();
             }
