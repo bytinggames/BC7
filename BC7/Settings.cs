@@ -22,6 +22,8 @@
                 if (value)
                 {
                     SilentExceptions = true;
+                    Fullscreen = true;
+                    AmountOfGames = 3;
                 }
             }
         }
