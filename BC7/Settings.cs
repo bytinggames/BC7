@@ -9,6 +9,7 @@
         /// <summary>Currently not working.</summary>
         public int? Seed { get; set; } = null;
         public bool SilentExceptions { get; set; } = false;
+        public bool Speech { get; set; } = false;
 
         public int GameSpeed { get; set; } = 0;
         public int AmountOfGames { get; set; } = 1;

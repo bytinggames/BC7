@@ -30,7 +30,8 @@ namespace BC7
             var texs = Content.Textures;
             SkullGame game = new SkullGame(brains, windowManager, gameIndex,
                 new(texs.Mat_0Tex, texs.Mat_1Tex, texs.FlowerTex, texs.SkullTex, texs.BackTex,
-                Content.Fonts.TahomaFont, Content.Fonts.Tahoma_boldFont, Content.Fonts.TahomaBigFont, Content.Fonts.TahomaBig_boldFont, shaders.HueShift));
+                Content.Fonts.TahomaFont, Content.Fonts.Tahoma_boldFont, Content.Fonts.TahomaBigFont, Content.Fonts.TahomaBig_boldFont, shaders.HueShift),
+                Speak);
 
             SkullGameContainer gameContainer = new(game, input.Keys, windowManager, Content.Fonts.TahomaBigFont);
 
@@ -40,6 +41,19 @@ namespace BC7
             gameContainer.OnMatchFinished += MatchFinished;
 
             return scene;
+        }
+
+        HashSet<string> alreadySpoken = new();
+
+        private void Speak(string text)
+        {
+            if (settings.Speech && settings.GameSpeed == 0)
+            {
+                if (alreadySpoken.Add(text))
+                {
+                    synth.Speak(text);
+                }
+            }
         }
 
         private void MatchFinished(int? winnerID)

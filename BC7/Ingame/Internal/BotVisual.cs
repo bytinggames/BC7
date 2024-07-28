@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace BC7
@@ -20,11 +21,14 @@ namespace BC7
         const int MaxDiscsPlayed = 4;
         private readonly BotVisualAssets assets;
         private readonly Sizes sizes;
+        private readonly Action<string> speak;
+        private string lastSpeech = "";
 
-        public BotVisual(BotVisualAssets assets, Sizes sizes)
+        public BotVisual(BotVisualAssets assets, Sizes sizes, Action<string> speak)
         {
             this.assets = assets;
             this.sizes = sizes;
+            this.speak = speak;
         }
 
         public void Draw1(SpriteBatch spriteBatch, Vector2 pos, Bot bot)
@@ -101,6 +105,21 @@ namespace BC7
             {
                 assets.FontBigBold.Value.Draw(spriteBatch, "WINNER", matRect.GetCenterAnchor(), Colors.TextOuter);
                 assets.FontBig.Value.Draw(spriteBatch, "WINNER", matRect.GetCenterAnchor(), Colors.TextInner);
+            }
+        }
+
+        internal void UpdateSpeech(Bot bot)
+        {
+            if (lastSpeech != bot.Brain.Thoughts)
+            {
+                lastSpeech = bot.Brain.Thoughts;
+                string name = bot.Brain.GetType().Name;
+                int i = name.IndexOf('_');
+                if (i != -1)
+                {
+                    name = name.Remove(i);
+                }
+                speak(name + " says: " + bot.Brain.Thoughts);
             }
         }
 

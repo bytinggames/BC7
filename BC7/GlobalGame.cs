@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Speech.Synthesis;
 
 namespace BC7
 {
@@ -25,7 +26,7 @@ namespace BC7
 
         // global assets
         private readonly UIAssets uiAssets;
-
+        SpeechSynthesizer synth;
 
         private void MyExit()
         {
@@ -36,6 +37,10 @@ namespace BC7
         public GlobalGame(GameWrapper g, Paths paths, SettingsManager<Settings> settingsManager, Type[] botTypes) : base(g, paths, new MyContentConverter(), true, false, true,
             false, true)
         {
+            synth = new SpeechSynthesizer();
+            // Configure the audio output.
+            synth.SetOutputToDefaultAudioDevice();
+
             this.paths = paths;
             this.settingsManager = settingsManager;
             

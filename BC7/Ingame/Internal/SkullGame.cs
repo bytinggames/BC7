@@ -32,12 +32,12 @@ namespace BC7
         private readonly int gameIndex;
         private readonly Sizes sizes;
 
-        internal SkullGame(List<BotBrain> brains, IResolution res, int gameIndex, BotVisualAssets botVisualAssets)
+        internal SkullGame(List<BotBrain> brains, IResolution res, int gameIndex, BotVisualAssets botVisualAssets, Action<string> speak)
         {
             sizes = new(res);
             for (int i = 0; i < brains.Count; i++)
             {
-                BotsAlive.Add(new Bot(brains[i], new BotData(i), new BotVisual(botVisualAssets, sizes)));
+                BotsAlive.Add(new Bot(brains[i], new BotData(i), new BotVisual(botVisualAssets, sizes, speak)));
             }
 
             BotsDeadAndAlive = BotsAlive.ToList();
@@ -199,7 +199,11 @@ namespace BC7
                     }
 
                     // next player
-                    turnIndex = (turnIndex + 1) % BotsAlive.Count;
+                    do
+                    {
+                        turnIndex = (turnIndex + 1) % BotsAlive.Count;
+                    }
+                    while (BotsAlive[turnIndex].Data.Passed);
                 }
 
                 // step 3 - the attempt
@@ -402,6 +406,11 @@ namespace BC7
 
         internal void Draw(SpriteBatch spriteBatch)
         {
+            foreach (var bot in BotsAlive)
+            {
+                bot.Visual.UpdateSpeech(bot);
+            }
+
             GetPositionsPerBot(spriteBatch).ForEvery(((int i, Vector2 pos) input) =>
             {
                 BotsDeadAndAlive[input.i].Visual.Draw1(spriteBatch, input.pos, BotsDeadAndAlive[input.i]);
