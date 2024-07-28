@@ -5,7 +5,7 @@
         public static void Main(string[] args)
         {
             string? name;
-            do
+            while (true)
             {
                 Console.WriteLine("Bot name to upload (Example_1 f.ex.) .zip, .7z, .gz are also possible:");
 
@@ -21,9 +21,15 @@
                 name = Path.Combine(Environment.CurrentDirectory, "..", "..", "..", "..", "BC7Runner", name);
                 name = Path.GetFullPath(name);
 
-                Console.WriteLine(name);
-                Console.WriteLine();
-            } while (!File.Exists(name));
+                if (File.Exists(name))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("file " + name + " doesn't exist. Try again!");
+                }
+            }
 
             Upload(name);
         }
