@@ -358,7 +358,7 @@ namespace BC7
                     }
 
                     // if the skull that was revealed was the only disc of that player, then eliminate that player
-                    if (failedOnPlayer.Data.Lives == 1)
+                    if (failedOnPlayer.Data.Lives == 1 && failedOnPlayer != challenger)
                     {
                         EliminatePlayer(failedOnPlayer, ref turnIndex);
                     }
