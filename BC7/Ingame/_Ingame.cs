@@ -49,8 +49,10 @@ namespace BC7
                 participants[winnerID.Value].Score++;
             }
 
-            Debug.WriteLine("scores:\n" + string.Join('\n', participants.Select(f => f.Score.ToString().PadLeft(3) + " " + f.BotType.Name)) + "\n");
-
+            if (settings.GameSpeed <= 1)
+            {
+                WriteScores();
+            }
             if (gameIndex + 1 < settings.AmountOfGames)
             {
                 gameIndex++;
@@ -58,8 +60,14 @@ namespace BC7
             }
             else if (settings.GameSpeed == 2)
             {
+                WriteScores();
                 MyExit();
             }
+        }
+
+        private void WriteScores()
+        {
+            Debug.WriteLine("scores:\n" + string.Join('\n', participants.Select(f => f.Score.ToString().PadLeft(3) + " " + f.BotType.Name)) + "\n");
         }
     }
 }

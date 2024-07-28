@@ -11,7 +11,7 @@
         public bool SilentExceptions { get; set; } = false;
 
         public int GameSpeed { get; set; } = 0;
-        public int AmountOfGames { get; set; } = 3;
+        public int AmountOfGames { get; set; } = 1;
 
 
         public bool SetRealGame

@@ -42,7 +42,7 @@ namespace BC7
         /// <summary>Either play another disc or be the one who starts to bet he can flip X amount of flowers.</summary>
         public abstract DiscOrBet Step2A_DiscOrBet();
         /// <summary>Bet you can flip more flowers or pass.</summary>
-        public abstract IncreaseOrPass Step2B_IncreaseOrPass(int heighestBet);
+        public abstract IncreaseOrPass Step2B_IncreaseOrPass(int highestBet);
         /// <summary>
         /// Choose a player you want to flip a disc from.
         /// Return the ID of the chosen player. This is only executed, if you have a choice.

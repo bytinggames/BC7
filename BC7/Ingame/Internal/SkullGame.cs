@@ -86,14 +86,14 @@ namespace BC7
                 }
 
                 // step 2 - ADDING extra discs or CHALLENGE
-                int heighestPossibleBet;
+                int highestPossibleBet;
                 int bet = 0;
                 Bot? challenger = null;
                 while (true)
                 {
                     yield return LoopAction.WaitForEnter; // before player taking step 2A
 
-                    heighestPossibleBet = BotsAlive.Sum(f => f.Data.DiscsPlayed.Count());
+                    highestPossibleBet = BotsAlive.Sum(f => f.Data.DiscsPlayed.Count());
                     var bot = BotsAlive[turnIndex];
 
                     DiscOrBet? discOrChallenge = null;
@@ -120,9 +120,9 @@ namespace BC7
                     {
                         challenger = bot;
                         bet = discOrChallenge.ChallengeBetAmount;
-                        if (bet > heighestPossibleBet)
+                        if (bet > highestPossibleBet)
                         {
-                            bet = heighestPossibleBet;
+                            bet = highestPossibleBet;
                         }
                         else if (bet < 1)
                         {
@@ -145,8 +145,8 @@ namespace BC7
                 if (bet == BotsAlive.Sum(f => f.Data.DiscsPlayed.Count()))
                 {
                     // unlock the last bet
-                    // allow for one last bet, even though the heighest possible bet has already been done
-                    heighestPossibleBet++;
+                    // allow for one last bet, even though the highest possible bet has already been done
+                    highestPossibleBet++;
                     heighestPossibleBetIncreasedBy1 = true;
                 }
                 while (BotsAlive.Count(f => f.Data.Passed) != BotsAlive.Count - 1)
@@ -182,18 +182,18 @@ namespace BC7
                     else
                     {
                         challenger = bot;
-                        bet = Math.Clamp(increaseOrPass.BetAmount, Math.Min(bet + 1, heighestPossibleBet), heighestPossibleBet);
+                        bet = Math.Clamp(increaseOrPass.BetAmount, Math.Min(bet + 1, highestPossibleBet), highestPossibleBet);
                         bot.Data.LastBidThisRound = bet;
 
                         if (heighestPossibleBetIncreasedBy1)
                         {
                             break; // no more bets possible. the heighest was just bet.
                         }
-                        else if (bet == heighestPossibleBet)
+                        else if (bet == highestPossibleBet)
                         {
                             // unlock the last bet
                             // allow for one last bet, even though the heighest possible bet has already been done
-                            heighestPossibleBet++;
+                            highestPossibleBet++;
                             heighestPossibleBetIncreasedBy1 = true;
                         }
                     }
@@ -373,17 +373,14 @@ namespace BC7
 
         private void EliminatePlayer(Bot bot, ref int turnIndex)
         {
-            // if the player to be eliminated is currently at turn, give the turn to the next player.
-            if (BotsAlive[turnIndex] == bot)
+            int indexOfDyingPlayer = BotsAlive.IndexOf(bot);
+            if (turnIndex > indexOfDyingPlayer)
             {
-                if (turnIndex == BotsAlive.Count - 1)
-                {
-                    turnIndex = 0;
-                }
-                else
-                {
-                    // just let the turnIndex stay here, as the bot gets removed from BotsAlive
-                }
+                turnIndex--;
+            }
+            else if (turnIndex == indexOfDyingPlayer && turnIndex == BotsAlive.Count - 1)
+            {
+                turnIndex = 0;
             }
 
             while (bot.Data.DiscsInHand.Count() > 0)

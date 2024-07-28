@@ -1,4 +1,4 @@
-﻿namespace BC7Runner.Round1
+﻿namespace BC7Runner
 {
     internal class Example_1 : BotBrain
     {
@@ -47,7 +47,7 @@
             //              .Skull();
         }
 
-        public override IncreaseOrPass Step2B_IncreaseOrPass(int heighestBet)
+        public override IncreaseOrPass Step2B_IncreaseOrPass(int highestBet)
         {
             // TODO
 

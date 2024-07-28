@@ -74,7 +74,7 @@ namespace BC7
 #pragma warning restore CS8603 // Possible null reference return.
         }
 
-        public override IncreaseOrPass Step2B_IncreaseOrPass(int heighestBet)
+        public override IncreaseOrPass Step2B_IncreaseOrPass(int highestBet)
         {
             if (keys.P.Pressed)
             {

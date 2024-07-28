@@ -1,4 +1,4 @@
-﻿namespace BC7Runner.Round1
+﻿namespace BC7Runner
 {
     internal class Minimum_1 : BotBrain
     {
@@ -16,7 +16,7 @@
             return DiscOrBet.Bet(3);
         }
 
-        public override IncreaseOrPass Step2B_IncreaseOrPass(int heighestBet)
+        public override IncreaseOrPass Step2B_IncreaseOrPass(int highestBet)
         {
             return IncreaseOrPass.Pass();
         }
