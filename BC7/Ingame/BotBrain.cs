@@ -49,6 +49,7 @@ namespace BC7
         /// </summary>
         public abstract int Step3_ChoosePlayerToFlip1Disc(int[] playerIDsToChooseFrom);
 
+        /// <summary>Gets executed before the challenger is punished (loses a disc) or rewarded (gains a point).</summary>
         public abstract void OnRoundEnd();
 
         /// <summary>When you fail because you flipped your own skull, you have the advantage of choosing what disc to destroy.</summary>

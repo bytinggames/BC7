@@ -293,10 +293,10 @@ namespace BC7
                     bot.Data.LastBidThisRound = 0;
                 }
 
-                // challenger starts next turn per default
+                // bot starts next turn per default
                 turnIndex = BotsAlive.IndexOf(challenger);
 
-                // punish or reward the challenger
+                // punish or reward the bot
                 if (failedOnPlayer == null)
                 {
                     // success -> reward
@@ -308,10 +308,7 @@ namespace BC7
                     if (challenger.Data.DiscsInHand.Count() == 1)
                     {
                         // player loses and gets removed from the Game
-                        challenger.Data.DiscsInHand.TryMoveDiscTo(Disc.Flower /* any */, challenger.Data.DiscsDestroyed);
-                        challenger.Data.Alive = false;
-                        BotsAlive.Remove(challenger);
-                        BotsDead.Add(challenger);
+                        EliminatePlayer(challenger, ref turnIndex);
 
                         // if the challenger is removed from the Game, then the next players turn is the one whose disc the challenger died from
                         // if that disc was his own, the dying player chooses who's next (in our case we determine that randomly)
@@ -357,6 +354,12 @@ namespace BC7
                             challenger.Data.DiscsInHand.TryMoveDiscTo(remove, challenger.Data.DiscsDestroyed);
                         }
                     }
+
+                    // if the skull that was revealed was the only disc of that player, then eliminate that player
+                    if (failedOnPlayer.Data.Lives == 1)
+                    {
+                        EliminatePlayer(failedOnPlayer, ref turnIndex);
+                    }
                 }
             } while (BotsAlive.All(f => f.Data.Successes < 2) && BotsAlive.Count > 1);
 
@@ -364,6 +367,38 @@ namespace BC7
             {
                 BotsAlive[0].Data.LastSurvivor = true;
             }
+        }
+
+        private void EliminatePlayer(Bot bot, ref int turnIndex)
+        {
+            // if the player to be eliminated is currently at turn, give the turn to the next player.
+            if (BotsAlive[turnIndex] == bot)
+            {
+                if (turnIndex == BotsAlive.Count - 1)
+                {
+                    turnIndex = 0;
+                }
+                else
+                {
+                    // just let the turnIndex stay here, as the bot gets removed from BotsAlive
+                }
+            }
+
+            while (bot.Data.DiscsInHand.Count() > 0)
+            {
+                bot.Data.DiscsInHand.TryMoveDiscTo(Disc.Flower /* any */, bot.Data.DiscsDestroyed);
+            }
+            while (bot.Data.DiscsRevealed.Count() > 0)
+            {
+                bot.Data.DiscsRevealed.MoveTopTo(bot.Data.DiscsDestroyed);
+            }
+            while (bot.Data.DiscsPlayed.Count() > 0)
+            {
+                bot.Data.DiscsPlayed.MoveTopTo(bot.Data.DiscsDestroyed);
+            }
+            bot.Data.Alive = false;
+            BotsAlive.Remove(bot);
+            BotsDead.Add(bot);
         }
 
         internal void Draw(SpriteBatch spriteBatch)
