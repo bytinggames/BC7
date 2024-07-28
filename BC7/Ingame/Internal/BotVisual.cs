@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace BC7
 {
@@ -26,7 +27,7 @@ namespace BC7
             this.sizes = sizes;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 pos, Bot bot)
+        public void Draw1(SpriteBatch spriteBatch, Vector2 pos, Bot bot)
         {
             var data = bot.Data;
             if (!data.Alive)
@@ -80,18 +81,26 @@ namespace BC7
                 assets.FontBold.Value.Draw(spriteBatch, bot.Data.ID + " - " + bot.Brain.GetType().Name + " - " + new string('O', bot.Data.Lives), anchor, Colors.TextOuter);
                 assets.Font.Value.Draw(spriteBatch, bot.Data.ID + " - " + bot.Brain.GetType().Name + " - " + new string('O', bot.Data.Lives), anchor, Colors.TextInner);
 
-                if (bot.Data.LastBidThisRound != 0)
-                {
-                    //Anchor anchor = matRect.GetCenterAnchor();
-                    anchor = Anchor.Bottom(matRect.TopV - new Vector2(0f, sizes.SpaceToText * 2f + assets.Font.Value.DefaultCharacterHeight));
-                    assets.FontBigBold.Value.Draw(spriteBatch, bot.Data.LastBidThisRound.ToString(), anchor, Colors.TextOuter);
-                    assets.FontBig.Value.Draw(spriteBatch, bot.Data.LastBidThisRound.ToString(), anchor, Colors.TextInner);
-                }
+            }
+        }
 
-                if (bot.Data.Successes >= 2 || bot.Data.LastSurvivor)
-                {
-                    assets.Font.Value.Draw(spriteBatch, "WINNER", Anchor.Right(matRect.LeftV), Colors.Text);
-                }
+        public void Draw2(SpriteBatch spriteBatch, Vector2 pos, Bot bot, SkullGame game)
+        {
+            var matRect = Anchor.Center(pos).Rectangle(sizes.MatSize);
+
+            if (bot.Data.LastBidThisRound != 0)
+            {
+                bool highestBid = game.BotsAlive.Select(f => f.Data.LastBidThisRound).Max() == bot.Data.LastBidThisRound;
+                //Anchor anchor = matRect.GetCenterAnchor();
+                Anchor anchor = Anchor.Bottom(matRect.TopV - new Vector2(0f, sizes.SpaceToText * 2f + assets.Font.Value.DefaultCharacterHeight));
+                assets.FontBigBold.Value.Draw(spriteBatch, bot.Data.LastBidThisRound.ToString(), anchor, Colors.TextOuter * (highestBid ? 1f : 0.5f));
+                assets.FontBig.Value.Draw(spriteBatch, bot.Data.LastBidThisRound.ToString(), anchor, Colors.TextInner * (highestBid ? 1f : 0.5f));
+            }
+
+            if (bot.Data.Successes >= 2 || bot.Data.LastSurvivor)
+            {
+                assets.FontBigBold.Value.Draw(spriteBatch, "WINNER", matRect.GetCenterAnchor(), Colors.TextOuter);
+                assets.FontBig.Value.Draw(spriteBatch, "WINNER", matRect.GetCenterAnchor(), Colors.TextInner);
             }
         }
 

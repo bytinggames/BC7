@@ -368,6 +368,18 @@ namespace BC7
 
         internal void Draw(SpriteBatch spriteBatch)
         {
+            GetPositionsPerBot(spriteBatch).ForEvery(((int i, Vector2 pos) input) =>
+            {
+                BotsDeadAndAlive[input.i].Visual.Draw1(spriteBatch, input.pos, BotsDeadAndAlive[input.i]);
+            });
+            GetPositionsPerBot(spriteBatch).ForEvery(((int i, Vector2 pos) input) =>
+            {
+                BotsDeadAndAlive[input.i].Visual.Draw2(spriteBatch, input.pos, BotsDeadAndAlive[input.i], this);
+            });
+        }
+
+        private IEnumerable<(int, Vector2)> GetPositionsPerBot(SpriteBatch spriteBatch)
+        {
             for (int i = 0; i < BotsDeadAndAlive.Count; i++)
             {
                 float angle = i * MathHelper.TwoPi / BotsDeadAndAlive.Count;
@@ -378,10 +390,10 @@ namespace BC7
                 pos.X += sizes.PlayerSize / 2f;
                 pos.Y += sizes.PlayerSize / 2f;
 
-                BotsDeadAndAlive[i].Visual.Draw(spriteBatch, pos, BotsDeadAndAlive[i]);
+                yield return (i, pos);
             }
         }
 
-#endregion
+        #endregion
     }
 }

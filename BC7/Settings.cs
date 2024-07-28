@@ -11,7 +11,7 @@
         public int? Seed { get; set; } = null;
         public bool SilentExceptions { get; set; } = false;
 
-        public bool WaitForEnterToContinueGame { get; set; } = false;
+        public bool WaitForEnterToContinueGame { get; set; } = true;
 
 
         public bool SetRealGame
