@@ -63,8 +63,7 @@ namespace BC7
 
             Func<Scene> StartScene = CreateIngameScene;
 
-            if (settings.KeyShortcuts)
-                stuff.Add(new UpdateTrigger(() => input.Keys.Escape.Pressed, Exit));
+            stuff.Add(new UpdateTrigger(() => input.Keys.Escape.Pressed, Exit));
             //stuff.Add(new UpdateTrigger(() => input.Keys.Back.Pressed, () => ChangeScene(CreateMenue)));
             //stuff.Add(new UpdateTrigger(() => input.Keys.R.Pressed && input.Keys.Control.Down, () => ChangeScene(StartScene)));
             //stuff.Add(new UpdateTrigger(() => input.Keys.R.Pressed && !input.Keys.Control.Down && createCurrentScene != null, () => ChangeScene(createCurrentScene!)));

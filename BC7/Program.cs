@@ -11,6 +11,7 @@ namespace BC7
             string contentPath = Path.Combine(new DirectoryInfo(Environment.CurrentDirectory).Parent!.Parent!.Parent!.FullName, "Content");
             Paths paths = new Paths(contentPath);
             SettingsManager<Settings> settingsManager = new SettingsManager<Settings>(paths);
+            CreateExampleYaml(settingsManager);
 
             if (settingsManager.Settings.ShuffleBotsOnce)
                 bots.Shuffle(new Random());
@@ -35,6 +36,20 @@ CrashLogger.TryRun(paths.CrashLogFile, "Fonts/MessageBox", () =>
 #if RELEASE
 });
 #endif
+        }
+
+        private static void CreateExampleYaml(SettingsManager<Settings> settingsManager)
+        {
+            string? cSharpSettingsFilePath = null;
+#if DEBUG
+            cSharpSettingsFilePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            if (cSharpSettingsFilePath != null)
+            {
+                cSharpSettingsFilePath = Path.Combine(cSharpSettingsFilePath, "Settings.cs");
+            }
+#endif
+
+            settingsManager.CreateExampleYamlFileIfNotExisting(cSharpSettingsFilePath);
         }
     }
 }
