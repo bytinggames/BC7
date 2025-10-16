@@ -9,7 +9,7 @@ Do the following, to be able to build the project:
 
 | Windows | Linux |
 | :--- | :--- |
-| Run PullAllAndRun.bat in the command line (that file is located in the directory you just cloned) | Goto SE/SE/Linux/ and run Setup.sh in the terminal (this will install some stuff. Feel free to inspect the script or install stuff manually) |
+| Run PullAllAndRun.bat in the command line (that file is located in the directory you just cloned) | Goto BC7/BC7Runner/Linux/ and run Setup.sh in the terminal (this will install some stuff. Feel free to inspect the script or install stuff manually) |
 
 - When the game runs, Everything worked! <br/> Under the hood, the following happened:
   - BytingLib has been pulled from GitHub and is now located next to your BC7 folder. (BytingLib is the engine the game runs on. It is hosted in a separate repository)
