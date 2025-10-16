@@ -9,8 +9,6 @@
 
         public override Disc Step1_FirstDisc()
         {
-            // TODO
-
             // TUTORIAL (kind of)
             // here's how to get information:
 
@@ -72,7 +70,7 @@
 
         public override void OnRoundEnd()
         {
-            // you can check here what happened this round. F.ex. What cards were revealed by whom and Who betted what.
+            // you can check here what happened this round. F.ex. what cards were revealed by whom and who betted what.
         }
     }
 }
