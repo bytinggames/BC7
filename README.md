@@ -33,4 +33,6 @@ To make the game use the settings, rename that file to ```settings.yaml``` and c
 In Visual Studio find the UploadBot project > right click > Set as Startup Project > hit F5 > Follow the instructions
 
 ## Download Bots
-The game master downloads the bots via FTP (FileZilla f.ex.). You'll need access from Julian.
+The game master downloads the bots via FTP (FileZilla f.ex.). You'll need access from Julian.<br>
+Protokoll: SFTP<br>
+Server: ssh.strato.de<br>
