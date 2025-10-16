@@ -28,3 +28,9 @@ If you want to pull the latest changes from BytingLib and BC7, do the following:
 Run the game once to generate a settings.example.yaml file to the folder<br>
 ```C:\Users\[your_username]\AppData\Roaming\BC7Runner```<br>
 To make the game use the settings, rename that file to ```settings.yaml``` and change the default values to your liking. Comments are included. ```SetRealGame: true``` should be used when you're running the competition.
+
+## Upload Bots
+In Visual Studio find the UploadBot project > right click > Set as Startup Project > hit F5 > Follow the instructions
+
+## Download Bots
+The game master downloads the bots via FTP (FileZilla f.ex.). You'll need access from Julian.
