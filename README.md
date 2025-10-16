@@ -5,7 +5,7 @@ Do the following, to be able to build the project:
 | :--- | :--- |
 | Install Visual Studio 2022 with package ".NET-Desktopentwicklung" selected: https://visualstudio.microsoft.com/de/vs/community/ | Install Visual Studio Code if you want. You could also use no IDE and work in a text editor. |
 
-- Clone this repository using the command: git clone --recurse-submodules https://github.com/bytinggames/BC7.git
+- Use the following command to clone this repository:<br>```git clone --recurse-submodules https://github.com/bytinggames/BC7.git```
 
 | Windows | Linux |
 | :--- | :--- |
